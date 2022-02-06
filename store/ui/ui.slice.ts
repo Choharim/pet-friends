@@ -23,7 +23,9 @@ const ui = createSlice({
       }
     },
 
-    showToast: (state, { payload }: PayloadAction<Toast>) => {},
+    showToast: (state, _: PayloadAction<Toast>) => {
+      state
+    },
     addToast: (state, { payload }: PayloadAction<Toast>) => {
       state.toasts = [payload, ...state.toasts]
     },
