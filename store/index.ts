@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-
+import createSagaMiddleware from 'redux-saga'
+import { createWrapper } from 'next-redux-wrapper'
 import { createLogger } from 'redux-logger'
 
-import { createWrapper } from 'next-redux-wrapper'
 import rootReducer from './root.reducer'
-import createSagaMiddleware from 'redux-saga'
 
 const devMode = process.env.NODE_ENV !== 'production'
 
