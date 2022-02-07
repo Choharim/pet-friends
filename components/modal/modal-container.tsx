@@ -17,12 +17,12 @@ const RenderInModalContainer = ({
 }: {
   children: React.ReactNode
 }) => {
-  const modalContainerElement = useMemo(
-    () => document.getElementById('modal-container') as HTMLElement,
-    []
-  )
-
-  return createPortal(children, modalContainerElement)
+  const modalContainerElement =
+    typeof window !== 'undefined' &&
+    (document.getElementById('modal-container') as HTMLElement)
+  return modalContainerElement && children
+    ? createPortal(children, modalContainerElement)
+    : null
 }
 
 const MODALS: { [key in ModalName]: ({ onClick }: ModalProps) => JSX.Element } =

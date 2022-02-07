@@ -10,17 +10,16 @@ const RenderInToastContainer = ({
 }: {
   children: React.ReactNode
 }) => {
-  const toastContainerElement = useMemo(
-    () => document.getElementById('toast-container') as HTMLElement,
-    []
-  )
-
-  return createPortal(children, toastContainerElement)
+  const toastContainerElement =
+    typeof window !== 'undefined' &&
+    (document.getElementById('toast-container') as HTMLElement)
+  return toastContainerElement && children
+    ? createPortal(children, toastContainerElement)
+    : null
 }
 
 const ToastContainer = () => {
   const toasts = useSelector(selectToasts)
-
   return (
     <RenderInToastContainer>
       {toasts.length &&

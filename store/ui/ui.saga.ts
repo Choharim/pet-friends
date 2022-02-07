@@ -17,6 +17,7 @@ function* controlAutoToastClose({
   payload,
 }: ReturnType<typeof uiActions.showToast>) {
   const { key } = payload
+
   const toasts: ReturnType<typeof selectToasts> = yield select(selectToasts)
   if (toasts.length && toasts.some((toast) => toast.key === key)) return
 

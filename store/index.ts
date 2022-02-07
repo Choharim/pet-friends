@@ -1,29 +1,35 @@
-import { configureStore } from '@reduxjs/toolkit'
-import createSagaMiddleware from 'redux-saga'
-import { createWrapper } from 'next-redux-wrapper'
+import { applyMiddleware, createStore, compose } from '@reduxjs/toolkit'
+
+import createSagaMiddleware, { Task } from 'redux-saga'
 import { createLogger } from 'redux-logger'
 
-import rootReducer from './root.reducer'
+import { createWrapper } from 'next-redux-wrapper'
+
+import rootSaga from 'store/root.saga'
+import rootReducer from 'store/root.reducer'
+
+declare module 'redux' {
+  export interface Store {
+    sagaTask: Task
+  }
+}
 
 const devMode = process.env.NODE_ENV !== 'production'
 
-const logger = createLogger({
-  diff: true,
-})
+const makeStore = () => {
+  const sagaMiddleware = createSagaMiddleware()
 
-const sagaMiddleware = createSagaMiddleware()
+  const logger = createLogger({
+    diff: true,
+  })
 
-const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    })
-      .prepend(sagaMiddleware)
-      .concat(logger),
-  devTools: devMode,
-})
+  const enhancer = compose(applyMiddleware(sagaMiddleware, logger))
 
-const makeStore = () => store
+  const store = createStore(rootReducer, enhancer)
+
+  store.sagaTask = sagaMiddleware.run(rootSaga)
+
+  return store
+}
 
 export const reduxWrapper = createWrapper(makeStore, { debug: devMode })
