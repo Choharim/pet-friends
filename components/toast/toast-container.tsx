@@ -1,11 +1,12 @@
 import { keyframes } from '@emotion/react'
 import styled from '@emotion/styled'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { createPortal } from 'react-dom'
 import { selectToasts } from 'store/ui/ui.selector'
+import { TOAST_DESC_MAP } from 'store/ui/ui.types'
 
-const RenderInToastContainer = ({
+const PortalForToastContainer = ({
   children,
 }: {
   children: React.ReactNode
@@ -20,15 +21,17 @@ const RenderInToastContainer = ({
 
 const ToastContainer = () => {
   const toasts = useSelector(selectToasts)
+
   return (
-    <RenderInToastContainer>
-      {toasts.length &&
-        toasts.map((toast, i) => (
-          <ToastBox key={toast.key} sectionHeight={`${i * (46 + 3)}px`}>
-            {toast.key}
-          </ToastBox>
-        ))}
-    </RenderInToastContainer>
+    <PortalForToastContainer>
+      {toasts.length && (
+        <Container>
+          {toasts.map((toast) => (
+            <ToastBox key={toast.key}>{TOAST_DESC_MAP[toast.descKey]}</ToastBox>
+          ))}
+        </Container>
+      )}
+    </PortalForToastContainer>
   )
 }
 
@@ -42,9 +45,12 @@ const ToastAnimation = keyframes`
   15% {
     opacity: 1;
     }
-  70% {
+  65% {
     opacity: 1;
     margin-top : 30px;
+    }
+  80% {
+    opacity: 1;
     }
   100% {
     opacity: 0;
@@ -52,12 +58,16 @@ const ToastAnimation = keyframes`
     }
 `
 
-const ToastBox = styled.div<{ sectionHeight: string }>`
+const Container = styled.div`
   position: absolute;
   right: 50%;
-  top: calc(70px + (${({ sectionHeight }) => sectionHeight}));
   transform: translateX(50%);
+  top: 5px;
+`
+
+const ToastBox = styled.div`
   animation: ${ToastAnimation} 2.5s forwards ease;
+
   display: flex;
   align-items: center;
   justify-content: center;

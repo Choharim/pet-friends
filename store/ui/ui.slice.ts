@@ -10,33 +10,26 @@ const ui = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    toggleModal: (
+    showModal: (
       state,
       { payload }: PayloadAction<{ modalName: ModalName; timout?: number }>
     ) => {
-      if (state.modals.some((modal) => modal === payload.modalName)) {
-        state.modals = state.modals.filter(
-          (modal) => modal !== payload.modalName
-        )
-      } else {
-        state.modals = [...state.modals, payload.modalName]
-      }
+      state.modals = [...state.modals, payload.modalName]
+    },
+    closeModal: (state, { payload }: PayloadAction<ModalName>) => {
+      state.modals = state.modals.filter((modal) => modal !== payload)
     },
 
-    showToast: (state, _: PayloadAction<Toast>) => {
-      state
-    },
-    addToast: (state, { payload }: PayloadAction<Toast>) => {
-      state.toasts = [payload, ...state.toasts]
-    },
+    showToast: (state, { payload: { descKey, key } }: PayloadAction<Toast>) => {
+      // if (state.toasts.some((toast) => toast.descKey === descKey)) return
 
-    clearToast: (state, { payload }: PayloadAction<Toast>) => {
-      if (state.toasts.some((toast) => toast.key === payload.key)) {
-        state.toasts = state.toasts.filter((toast) => toast.key !== payload.key)
-      }
+      state.toasts = [{ descKey, key }, ...state.toasts]
+    },
+    clearToast: (state, _: PayloadAction) => {
+      state.toasts = state.toasts.slice(0, -1)
     },
   },
 })
 
-export const { toggleModal, showToast, addToast, clearToast } = ui.actions
+export const { showModal, closeModal, showToast, clearToast } = ui.actions
 export default ui.reducer
