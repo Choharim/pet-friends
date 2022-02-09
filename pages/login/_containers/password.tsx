@@ -12,7 +12,6 @@ const Password = () => {
   const dispatch = useDispatch()
   const password = useSelector(selectPassword)
   const [toggle, setToggle] = useState(false)
-  const [blur, setBlur] = useState(false)
 
   const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -25,8 +24,6 @@ const Password = () => {
   }
 
   const showErrorText = () => {
-    if (!blur) return
-
     if (!password) {
       return WarningText.required
     } else if (!checkPasswordFormat(password)) {
@@ -43,8 +40,6 @@ const Password = () => {
         value={password}
         onChange={changePassword}
         errorText={showErrorText()}
-        onBlur={() => setBlur(true)}
-        onFocus={() => setBlur(false)}
       />
       <Text onClick={showPassword}>{toggle ? '표시' : '숨김'}</Text>
     </Container>

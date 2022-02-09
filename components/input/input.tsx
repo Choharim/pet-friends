@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import React, { InputHTMLAttributes } from 'react'
+import React, { InputHTMLAttributes, useState } from 'react'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   errorText?: string
@@ -9,12 +9,22 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const { id, label, errorText } = props
+  const [blur, setBlur] = useState(false)
+
+  const isInvalid = blur && !!errorText
 
   return (
     <InputWrapper>
       <Label htmlFor={id}>{label}</Label>
-      <InputBox {...props} ref={ref} id={id} warning={!!errorText} />
-      {!!errorText && <ErrorText>{errorText}</ErrorText>}
+      <InputBox
+        {...props}
+        ref={ref}
+        id={id}
+        warning={isInvalid}
+        onBlur={() => setBlur(true)}
+        onFocus={() => setBlur(false)}
+      />
+      {isInvalid && <ErrorText>{errorText}</ErrorText>}
     </InputWrapper>
   )
 })
