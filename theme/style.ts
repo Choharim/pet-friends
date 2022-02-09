@@ -1,13 +1,13 @@
 import { Theme } from '@emotion/react'
-import { deviceSizes } from '../constants/common'
+import { deviceSizes } from 'constants/common'
 
 export const theme: Theme = {
   colors: {
-    MAIN_1: '#a7c1e1',
-    MAIN_2: '#8caed8',
-    MAIN_3: '#719ccf',
-    MAIN_4: '#5689c6',
-    MAIN_5: '#3e77bb',
+    MAIN_1: '#BF9270',
+    MAIN_2: '#E3B7A0',
+    MAIN_3: '#EDCDBB',
+    MAIN_4: '#fae1c8',
+    MAIN_5: '#FFEDDB',
     WHITE: '#FFFFFF',
     BLACK_1: '#4d4d4d',
     BLACK_2: '#3c3c3c',
@@ -36,9 +36,9 @@ export const theme: Theme = {
       fontWeight: 700,
     },
     HEADER_3: {
-      fontSize: '28px',
+      fontSize: '24px',
       lineHeight: '38px',
-      fontWeight: 500,
+      fontWeight: 600,
     },
     SUB_TITLE_1: {
       fontSize: '22px',
@@ -51,37 +51,44 @@ export const theme: Theme = {
       fontWeight: 600,
     },
     SUB_TITLE_3: {
+      fontSize: '17px',
+      lineHeight: '25px',
+      fontWeight: 600,
+    },
+    SUB_TITLE_4: {
       fontSize: '16px',
-      lineHeight: '26px',
-      fontWeight: 500,
+      lineHeight: '25px',
+      fontWeight: 600,
     },
     BODY_1: {
       fontSize: '16px',
       lineHeight: '26px',
-      fontWeight: 500,
+      fontWeight: 550,
     },
     BODY_2: {
       fontSize: '14px',
-      lineHeight: '20px',
+      lineHeight: '24px',
+      fontWeight: 500,
     },
     BODY_3: {
-      fontSize: '0.875rem',
-      fontWeight: 400,
+      fontSize: '14px',
+      lineHeight: '20px',
+      fontWeight: 500,
     },
     BODY_4: {
       fontSize: '13px',
       lineHeight: '20px',
-      fontWeight: 500,
+      fontWeight: 600,
     },
     BODY_5: {
       fontSize: '12px',
       lineHeight: '16px',
-      fontWeight: 300,
+      fontWeight: 500,
     },
     BODY_6: {
       fontSize: '11px',
       lineHeight: '15px',
-      fontWeight: 300,
+      fontWeight: 500,
     },
   },
   media: {

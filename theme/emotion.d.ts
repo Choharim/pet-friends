@@ -45,6 +45,7 @@ type FontsType =
   | 'SUB_TITLE_1'
   | 'SUB_TITLE_2'
   | 'SUB_TITLE_3'
+  | 'SUB_TITLE_4'
   | 'BODY_1'
   | 'BODY_2'
   | 'BODY_3'

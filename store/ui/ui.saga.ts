@@ -1,6 +1,5 @@
 import { all, delay, fork, put, select, takeEvery } from 'redux-saga/effects'
-import * as uiActions from './ui.slice'
-import { selectToasts } from './ui.selector'
+import { uiActions } from './ui.slice'
 
 function* controlAutoModalClose({
   payload,

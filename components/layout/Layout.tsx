@@ -2,7 +2,6 @@ import styled from '@emotion/styled'
 import { deviceSizes } from 'constants/common'
 import Head from 'next/head'
 import { ReactElement } from 'react'
-import { theme } from 'theme'
 
 interface LayoutProps {
   title?: string

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { UIState, ModalName, Toast } from './ui.types'
+import { UIState, ModalName, Toast } from './ui.type'
 
 const initialState: UIState = {
   modals: [],
@@ -31,5 +31,5 @@ const ui = createSlice({
   },
 })
 
-export const { showModal, closeModal, showToast, clearToast } = ui.actions
+export const uiActions = ui.actions
 export default ui.reducer

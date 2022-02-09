@@ -4,7 +4,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { createPortal } from 'react-dom'
 import { selectToasts } from 'store/ui/ui.selector'
-import { TOAST_DESC_MAP } from 'store/ui/ui.types'
+import { TOAST_DESC_MAP } from 'store/ui/ui.type'
 
 const PortalForToastContainer = ({
   children,

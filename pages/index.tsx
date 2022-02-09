@@ -2,15 +2,15 @@ import styled from '@emotion/styled'
 import Layout from 'components/layout/Layout'
 import type { NextPage } from 'next'
 import { useDispatch } from 'react-redux'
-import { showToast } from 'store/ui/ui.slice'
-import { ToastDescKey } from 'store/ui/ui.types'
+import { uiActions } from 'store/ui/ui.slice'
+import { ToastDescKey } from 'store/ui/ui.type'
 
 const Home: NextPage = () => {
   const dispatch = useDispatch()
 
   const toast = () => {
     dispatch(
-      showToast({
+      uiActions.showToast({
         descKey: ToastDescKey.changePassword,
         key: new Date().getTime(),
       })

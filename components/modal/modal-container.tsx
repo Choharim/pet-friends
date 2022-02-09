@@ -2,8 +2,8 @@ import React, { useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectModals } from 'store/ui/ui.selector'
-import { showModal } from 'store/ui/ui.slice'
-import { ModalName } from 'store/ui/ui.types'
+import { uiActions } from 'store/ui/ui.slice'
+import { ModalName } from 'store/ui/ui.type'
 
 import SignUpSuccess from './signup-success'
 import ReconfirmAccountWithdrawal from './reconfirm-account-with-drawal'
@@ -44,7 +44,9 @@ const ModalContainer = () => {
           return (
             <OpenedModals
               key={`modal-${modal}`}
-              onClick={() => dispatch(showModal({ modalName: modal }))}
+              onClick={() =>
+                dispatch(uiActions.showModal({ modalName: modal }))
+              }
             />
           )
         })}
