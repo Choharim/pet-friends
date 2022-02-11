@@ -7,6 +7,7 @@ const initialState: AuthState = {
   nickName: '',
   profileUrl: '',
   phoneNumber: 0,
+  isLogin: false,
 }
 
 const auth = createSlice({

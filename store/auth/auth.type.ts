@@ -4,4 +4,5 @@ export type AuthState = {
   nickName: string
   profileUrl: string
   phoneNumber: number
+  isLogin: boolean
 }

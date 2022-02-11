@@ -19,6 +19,9 @@ const FindPasswordAndSignUp = () => {
       <FindPasswordButton onClick={findPassword}>
         비밀번호 찾기
       </FindPasswordButton>
+      {/**
+       * TODO: 회원가입 페이지 markdown
+       */}
       <GoToSignUp onClick={goToSignUp}>회원가입</GoToSignUp>
     </Container>
   )

@@ -9,3 +9,8 @@ export const selectPassword = createSelector(
   [selectAuth],
   (auth) => auth.password
 )
+
+export const selectIsLogin = createSelector(
+  [selectAuth],
+  (auth) => auth.isLogin
+)
