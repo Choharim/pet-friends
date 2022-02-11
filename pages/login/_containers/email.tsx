@@ -1,5 +1,4 @@
-import styled from '@emotion/styled'
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from 'store/auth/auth.slice'
 import { selectEmail } from 'store/auth/auth.selector'
@@ -11,11 +10,6 @@ import { checkEmailFormat } from 'utils'
 const Email = () => {
   const dispatch = useDispatch()
   const email = useSelector(selectEmail)
-
-  useEffect(() => {
-    //TODO: emailId + emailType
-    dispatch(authActions.setEmail(email))
-  }, [])
 
   const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -32,26 +26,15 @@ const Email = () => {
   }
 
   return (
-    <EmailSectionWrapper>
-      <Input
-        type="text"
-        value={email}
-        onChange={changeEmail}
-        errorText={showErrorText()}
-      />
-      {/* <Select>
-          <Option>
-
-          </Option>
-      </Select> */}
-    </EmailSectionWrapper>
+    <Input
+      type="text"
+      placeholder="이메일을 적어주세요"
+      label="이메일"
+      value={email}
+      onChange={changeEmail}
+      errorText={showErrorText() || ''}
+    />
   )
 }
 
 export default Email
-
-const EmailSectionWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-`

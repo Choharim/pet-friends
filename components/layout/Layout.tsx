@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
-import { deviceSizes } from 'constants/common'
+import Navigation from 'components/nav/navigation'
+import { deviceSizes, NAVIGATION_HEIGHT } from 'constants/common'
 import Head from 'next/head'
 import { ReactElement } from 'react'
 
@@ -14,8 +15,10 @@ const Layout = ({ children, title }: LayoutProps) => {
       <Head>
         <title>펫프렌즈{!!title && `-${title}`}</title>
       </Head>
-      <nav></nav>
-      <Body>{children}</Body>
+      <Body>
+        <Navigation />
+        {children}
+      </Body>
       <footer></footer>
       <div id="modal-container"></div>
       <div id="toast-container"></div>

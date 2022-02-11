@@ -22,7 +22,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         id={id}
         warning={isInvalid}
         onBlur={() => setBlur(true)}
-        onFocus={() => setBlur(false)}
       />
       {isInvalid && <ErrorText>{errorText}</ErrorText>}
     </InputWrapper>
@@ -70,7 +69,7 @@ const InputBox = styled.input<{ warning: boolean }>`
   }
 `
 const ErrorText = styled.span`
-  margin-top: 4px;
-  ${({ theme }) => theme.fonts.BODY_4};
+  margin-top: 7px;
+  ${({ theme }) => theme.fonts.BODY_5};
   color: ${({ theme }) => theme.colors.WARNING};
 `

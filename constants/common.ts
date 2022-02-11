@@ -6,3 +6,14 @@ export const deviceSizes = {
   MAX_MOBILE_SIZE: 768,
   MIN_MOBILE_SIZE: 360,
 }
+
+export const ICON_CDN_URL = 'https://cdn-icons-png.flaticon.com'
+
+export const NAVIGATION_HEIGHT = '58px'
+
+export const pageNames = {
+  HOME: '/',
+  LOGIN: '/login',
+  FIND_PASSWORD: '/find-password',
+  SIGN_UP: '/signp',
+}

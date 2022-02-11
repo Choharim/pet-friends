@@ -22,6 +22,7 @@ type ColorsType =
   | 'MAIN_3'
   | 'MAIN_4'
   | 'MAIN_5'
+  | 'MAIN_6'
   | 'WHITE'
   | 'BLACK_1'
   | 'BLACK_2'

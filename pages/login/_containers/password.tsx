@@ -11,7 +11,7 @@ import { checkPasswordFormat } from 'utils'
 const Password = () => {
   const dispatch = useDispatch()
   const password = useSelector(selectPassword)
-  const [toggle, setToggle] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -19,8 +19,8 @@ const Password = () => {
     dispatch(authActions.setPassword(value))
   }
 
-  const showPassword = () => {
-    setToggle((prev) => !prev)
+  const clickShowPasswordButton = () => {
+    setShowPassword((prev) => !prev)
   }
 
   const showErrorText = () => {
@@ -35,13 +35,15 @@ const Password = () => {
     <Container>
       <Input
         label="비밀번호"
-        type={toggle ? 'text' : 'password'}
+        type={showPassword ? 'text' : 'password'}
         placeholder="비밀번호를 적어주세요"
         value={password}
         onChange={changePassword}
-        errorText={showErrorText()}
+        errorText={showErrorText() || ''}
       />
-      <Text onClick={showPassword}>{toggle ? '표시' : '숨김'}</Text>
+      <ShowPasswodButton onClick={clickShowPasswordButton}>
+        {showPassword ? '숨김' : '표시'}
+      </ShowPasswodButton>
     </Container>
   )
 }
@@ -53,7 +55,7 @@ const Container = styled.div`
   width: 100%;
 `
 
-const Text = styled.span`
+const ShowPasswodButton = styled.span`
   position: absolute;
   top: 42px;
   right: 12px;

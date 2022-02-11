@@ -3,11 +3,12 @@ import { deviceSizes } from 'constants/common'
 
 export const theme: Theme = {
   colors: {
-    MAIN_1: '#BF9270',
-    MAIN_2: '#E3B7A0',
-    MAIN_3: '#EDCDBB',
-    MAIN_4: '#fae1c8',
-    MAIN_5: '#FFEDDB',
+    MAIN_1: '#ab8365',
+    MAIN_2: '#BF9270',
+    MAIN_3: '#E3B7A0',
+    MAIN_4: '#EDCDBB',
+    MAIN_5: '#fae1c8',
+    MAIN_6: '#FFEDDB',
     WHITE: '#FFFFFF',
     BLACK_1: '#4d4d4d',
     BLACK_2: '#3c3c3c',
@@ -83,7 +84,7 @@ export const theme: Theme = {
     BODY_5: {
       fontSize: '12px',
       lineHeight: '16px',
-      fontWeight: 500,
+      fontWeight: 600,
     },
     BODY_6: {
       fontSize: '11px',

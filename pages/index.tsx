@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import Layout from 'components/layout/Layout'
+import Layout from 'components/layout/layout'
 import type { NextPage } from 'next'
 import { useDispatch } from 'react-redux'
 import { uiActions } from 'store/ui/ui.slice'
