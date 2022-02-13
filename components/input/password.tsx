@@ -35,6 +35,7 @@ const Password = () => {
     <Container>
       <Input
         label="비밀번호"
+        labelDesc="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요."
         type={showPassword ? 'text' : 'password'}
         placeholder="비밀번호를 적어주세요"
         value={password}
@@ -57,7 +58,7 @@ const Container = styled.div`
 
 const ShowPasswodButton = styled.span`
   position: absolute;
-  top: 42px;
+  bottom: 12px;
   right: 12px;
 
   padding: 3px;

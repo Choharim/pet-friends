@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import Navigation from 'components/nav/navigation'
-import { deviceSizes, NAVIGATION_HEIGHT } from 'constants/common'
+import { deviceSizes } from 'constants/common'
 import Head from 'next/head'
 import { ReactElement } from 'react'
 

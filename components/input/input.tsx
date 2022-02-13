@@ -5,17 +5,21 @@ import React, { InputHTMLAttributes, useState } from 'react'
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   errorText?: string
   label?: string
+  labelDesc?: string
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { id, label, errorText } = props
+  const { id, label, errorText, labelDesc } = props
   const [blur, setBlur] = useState(false)
 
   const isInvalid = blur && !!errorText
 
   return (
     <InputWrapper>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} warning={isInvalid}>
+        {label}
+      </Label>
+      {!!labelDesc && <LabelDesc>{labelDesc}</LabelDesc>}
       <InputBox
         {...props}
         ref={ref}
@@ -37,10 +41,17 @@ const InputWrapper = styled.div`
   flex-direction: column;
 `
 
-const Label = styled.label`
+const Label = styled.label<{ warning: boolean }>`
   margin-bottom: 6px;
   ${({ theme }) => theme.fonts.SUB_TITLE_4};
-  color: ${({ theme }) => theme.colors.BLACK_2};
+  color: ${({ theme, warning }) =>
+    warning ? theme.colors.WARNING : theme.colors.BLACK_2};
+`
+
+const LabelDesc = styled.span`
+  margin-bottom: 6px;
+  ${({ theme }) => theme.fonts.BODY_4};
+  color: ${({ theme }) => theme.colors.GREY_6};
 `
 
 const InputBox = styled.input<{ warning: boolean }>`

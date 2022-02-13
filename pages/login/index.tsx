@@ -3,8 +3,8 @@ import Layout from 'components/layout/layout'
 import { ICON_CDN_URL, pageNames } from 'constants/common'
 import { useRouter } from 'next/router'
 import React from 'react'
-import Email from './_containers/email'
-import Password from './_containers/password'
+import Email from 'components/input/email'
+import Password from 'components/input/password'
 import ResetPasswordAndSignUp from './_containers/find-password-and-sign-up'
 
 const Login = () => {

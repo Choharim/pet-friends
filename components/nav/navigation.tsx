@@ -13,6 +13,10 @@ const Navigation = () => {
     router.push(pageNames.HOME)
   }
 
+  const goToLogin = () => {
+    router.push(pageNames.LOGIN)
+  }
+
   return (
     <NavContainer>
       <Navbars
@@ -29,7 +33,7 @@ const Navigation = () => {
       {/**
        * TODO: user profile component 생성
        */}
-      {isLogin ? null : <LoginButton>로그인</LoginButton>}
+      {isLogin ? null : <LoginButton onClick={goToLogin}>로그인</LoginButton>}
     </NavContainer>
   )
 }

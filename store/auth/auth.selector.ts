@@ -14,3 +14,8 @@ export const selectIsLogin = createSelector(
   [selectAuth],
   (auth) => auth.isLogin
 )
+
+export const selectNickName = createSelector(
+  [selectAuth],
+  (auth) => auth.nickName
+)

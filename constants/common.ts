@@ -15,5 +15,5 @@ export const pageNames = {
   HOME: '/',
   LOGIN: '/login',
   FIND_PASSWORD: '/find-password',
-  SIGN_UP: '/signp',
+  SIGN_UP: '/sign-up',
 }
