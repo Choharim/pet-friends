@@ -3,6 +3,7 @@ import Email from 'components/input/email'
 import Password from 'components/input/password'
 import Layout from 'components/layout/layout'
 import React from 'react'
+import Agreement from './_containers/agreement'
 import NickName from './_containers/nick-name'
 
 const SignUp = () => {
@@ -14,6 +15,7 @@ const SignUp = () => {
           <Email />
           <Password />
           <NickName />
+          <Agreement />
         </SignUpForm>
       </Wrapper>
     </Layout>

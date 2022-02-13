@@ -1,13 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AuthState } from './auth.type'
+import { AuthState, TermsAgreement } from './auth.type'
 
 const initialState: AuthState = {
+  isLogin: false,
   email: '',
   password: '',
   nickName: '',
   profileUrl: '',
   phoneNumber: 0,
-  isLogin: false,
+  termsAgreements: [
+    { field: 'terms-of-use', agree: false, updated: 0 },
+    {
+      field: 'collection-of-personal-information',
+      agree: false,
+      updated: 0,
+    },
+    { field: 'event-notification', agree: false, updated: 0 },
+  ],
 }
 
 const auth = createSlice({
@@ -22,6 +31,14 @@ const auth = createSlice({
     },
     setNickName: (state, { payload }: PayloadAction<string>) => {
       state.nickName = payload
+    },
+    updateTermsAgreements: (
+      state,
+      { payload }: PayloadAction<TermsAgreement>
+    ) => {
+      state.termsAgreements = state.termsAgreements.map((agreement) =>
+        agreement.field === payload.field ? payload : agreement
+      )
     },
   },
 })

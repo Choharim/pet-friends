@@ -15,18 +15,18 @@ const FindPasswordAndSignUp = () => {
   }
 
   return (
-    <Container>
+    <Wrapper>
       <FindPasswordButton onClick={findPassword}>
         비밀번호 찾기
       </FindPasswordButton>
       <GoToSignUp onClick={goToSignUp}>회원가입</GoToSignUp>
-    </Container>
+    </Wrapper>
   )
 }
 
 export default FindPasswordAndSignUp
 
-const Container = styled.div`
+const Wrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;

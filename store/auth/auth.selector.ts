@@ -19,3 +19,8 @@ export const selectNickName = createSelector(
   [selectAuth],
   (auth) => auth.nickName
 )
+
+export const selectTermsAgreements = createSelector(
+  [selectAuth],
+  (auth) => auth.termsAgreements
+)

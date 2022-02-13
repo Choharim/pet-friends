@@ -41,7 +41,7 @@ const InputWrapper = styled.div`
   flex-direction: column;
 `
 
-const Label = styled.label<{ warning: boolean }>`
+export const Label = styled.label<{ warning: boolean }>`
   margin-bottom: 6px;
   ${({ theme }) => theme.fonts.SUB_TITLE_4};
   color: ${({ theme, warning }) =>

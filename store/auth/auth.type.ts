@@ -5,4 +5,14 @@ export type AuthState = {
   profileUrl: string
   phoneNumber: number
   isLogin: boolean
+  termsAgreements: TermsAgreement[]
+}
+
+export type TermsAgreement = {
+  field:
+    | 'terms-of-use'
+    | 'event-notification'
+    | 'collection-of-personal-information'
+  agree: boolean
+  updated: number
 }

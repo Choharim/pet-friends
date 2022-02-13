@@ -11,7 +11,7 @@ interface LayoutProps {
 
 const Layout = ({ children, title }: LayoutProps) => {
   return (
-    <LayoutContainer>
+    <LayoutWrapper>
       <Head>
         <title>펫프렌즈{!!title && `-${title}`}</title>
       </Head>
@@ -22,13 +22,13 @@ const Layout = ({ children, title }: LayoutProps) => {
       <footer></footer>
       <div id="modal-container"></div>
       <div id="toast-container"></div>
-    </LayoutContainer>
+    </LayoutWrapper>
   )
 }
 
 export default Layout
 
-const LayoutContainer = styled.div`
+const LayoutWrapper = styled.div`
   display: flex;
   justify-content: center;
   height: 100%;

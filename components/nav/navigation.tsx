@@ -18,29 +18,29 @@ const Navigation = () => {
   }
 
   return (
-    <NavContainer>
+    <NavBox>
       <Navbars
         src={`${ICON_CDN_URL}/512/545/545705.png`}
         alt="navigation_bars"
       />
-      <LogoWrapper>
+      <Logo>
         <LogoText onClick={goToHome}>pet friends</LogoText>
         <LogoImg
           src="https://cdn-icons.flaticon.com/png/512/3629/premium/3629576.png?token=exp=1644589329~hmac=a731cfb34156cf97adc94289c37edd7e"
           alt="navigation-logo-img"
         />
-      </LogoWrapper>
+      </Logo>
       {/**
        * TODO: user profile component 생성
        */}
       {isLogin ? null : <LoginButton onClick={goToLogin}>로그인</LoginButton>}
-    </NavContainer>
+    </NavBox>
   )
 }
 
 export default Navigation
 
-const NavContainer = styled.div`
+const NavBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -56,7 +56,7 @@ const Navbars = styled.img`
 
   cursor: pointer;
 `
-const LogoWrapper = styled.div`
+const Logo = styled.div`
   display: flex;
   align-items: flex-end;
 `

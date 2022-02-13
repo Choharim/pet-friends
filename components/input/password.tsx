@@ -32,7 +32,7 @@ const Password = () => {
   }
 
   return (
-    <Container>
+    <Wrapper>
       <Input
         label="비밀번호"
         labelDesc="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요."
@@ -45,13 +45,13 @@ const Password = () => {
       <ShowPasswodButton onClick={clickShowPasswordButton}>
         {showPassword ? '숨김' : '표시'}
       </ShowPasswodButton>
-    </Container>
+    </Wrapper>
   )
 }
 
 export default Password
 
-const Container = styled.div`
+const Wrapper = styled.div`
   position: relative;
   width: 100%;
 `

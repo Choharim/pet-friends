@@ -16,12 +16,12 @@ const Modal = ({ children, onClick, type = 'center' }: ModalProps) => {
 
   return (
     <ModalOverlay onClick={onClick}>
-      <ModalContainer
+      <ModalWrapper
         type={type}
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         {children}
-      </ModalContainer>
+      </ModalWrapper>
     </ModalOverlay>
   )
 }
@@ -51,7 +51,7 @@ const ModalOverlay = styled.div`
   animation: ${ModalBgVisible} 0.3s;
 `
 
-const ModalContainer = styled.div<{ type: ModalType }>`
+const ModalWrapper = styled.div<{ type: ModalType }>`
   position: absolute;
   display: flex;
   flex-direction: column;
