@@ -71,10 +71,10 @@ const ToastBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.BLACK_2};
+  background-color: ${({ theme }) => theme.colors.BLACK_4};
   color: ${({ theme }) => theme.colors.WHITE};
-  ${({ theme }) => theme.fonts.SUB_TITLE_3};
-  padding: 10px 20px;
+  ${({ theme }) => theme.fonts.BODY_3};
+  padding: 12px 24px;
   min-width: 300px;
   border-radius: 4px;
   z-index: 1000;

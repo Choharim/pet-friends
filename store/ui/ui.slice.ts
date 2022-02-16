@@ -21,8 +21,6 @@ const ui = createSlice({
     },
 
     showToast: (state, { payload: { descKey, key } }: PayloadAction<Toast>) => {
-      // if (state.toasts.some((toast) => toast.descKey === descKey)) return
-
       state.toasts = [{ descKey, key }, ...state.toasts]
     },
     clearToast: (state, _: PayloadAction) => {

@@ -6,6 +6,7 @@ export enum ToastDescKey {
   apiError,
   alreadyOrdered,
   addToCart,
+  allRequired,
 }
 
 export const TOAST_DESC_MAP = {
@@ -15,6 +16,7 @@ export const TOAST_DESC_MAP = {
     '일시적인 오류가 발생했습니다. 잠시후에 다시 시도해주세요.',
   [ToastDescKey.alreadyOrdered]: '이미 주문된 상품입니다.',
   [ToastDescKey.addToCart]: '장바구니에 담았습니다.',
+  [ToastDescKey.allRequired]: '필수항목을 모두 입력해주세요.',
 } as const
 
 export type UIState = {
