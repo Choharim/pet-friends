@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectSignUpData } from 'store/auth/auth.selector'
 import { uiActions } from 'store/ui/ui.slice'
 import { ToastDescKey } from 'store/ui/ui.type'
+import { checkEmailFormat, checkPasswordFormat } from 'utils'
 import Agreement from './_containers/agreement'
 import NickName from './_containers/nick-name'
 
@@ -21,10 +22,10 @@ const SignUp = () => {
     e.preventDefault()
 
     if (
-      !email.trim() ||
-      !password.trim ||
-      !nickName.trim() ||
-      !termsAgreements.some(
+      !checkEmailFormat(email) ||
+      !checkPasswordFormat(password) ||
+      nickName.trim().length < 2 ||
+      termsAgreements.some(
         (ta) =>
           TERMS_AGREEMENTS.find((taData) => taData.field === ta.field)
             ?.required && !ta.agree

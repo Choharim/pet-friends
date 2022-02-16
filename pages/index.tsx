@@ -17,6 +17,8 @@ const Home: NextPage = () => {
     )
   }
 
+  //TODO: 메뉴바 만들기
+  //TODO: home 개발
   return (
     <Layout title="home">
       <Text onClick={toast}>hi</Text>
