@@ -2,20 +2,30 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Label } from 'components/input/input'
 import { TERMS_AGREEMENTS } from 'constants/auth'
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectTermsAgreements } from 'store/auth/auth.selector'
 import { authActions } from 'store/auth/auth.slice'
 import { TermsAgreement } from 'store/auth/auth.type'
 import Checkbox from 'components/checkbox/checkbox'
 
-//TODO: 전체동의체크박스
+const ALL_AGREE_CHECKBOX_ID = 'all-agreements'
+
 const Agreement = () => {
   const dispatch = useDispatch()
   const termsAgreements = useSelector(selectTermsAgreements)
+  const [blurCheckbox, setBlurCheckbox] = useState(false)
 
   const changeTermsAgreement = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, id } = e.target
+
+    if (TERMS_AGREEMENTS.find((taData) => taData.field === id)?.required) {
+      if (checked) {
+        setBlurCheckbox(false)
+      } else {
+        setBlurCheckbox(true)
+      }
+    }
 
     dispatch(
       authActions.updateTermsAgreements({
@@ -26,11 +36,38 @@ const Agreement = () => {
     )
   }
 
+  const changeAllTermsAgreement = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target
+
+    if (checked) {
+      dispatch(authActions.setTermsAgreements(true))
+      setBlurCheckbox(false)
+    } else {
+      dispatch(authActions.setTermsAgreements(false))
+      setBlurCheckbox(true)
+    }
+  }
+
+  const wraning =
+    termsAgreements.some(
+      (ta) =>
+        TERMS_AGREEMENTS.find((taData) => taData.field === ta.field)
+          ?.required && !ta.agree
+    ) && blurCheckbox
+
   return (
     <Wrapper>
-      <Label warning={true}>약관동의</Label>
+      <Label warning={wraning}>약관동의</Label>
 
       <CheckboxContainer>
+        <Checkbox
+          id={ALL_AGREE_CHECKBOX_ID}
+          onChange={changeAllTermsAgreement}
+          checked={termsAgreements.every((ta) => ta.agree)}
+        >
+          <CheckboxDesc all>전체동의</CheckboxDesc>
+        </Checkbox>
+
         {TERMS_AGREEMENTS.map((agreement) => (
           <Checkbox
             key={agreement.field}
@@ -40,7 +77,7 @@ const Agreement = () => {
               termsAgreements.find((ta) => ta.field === agreement.field)
                 ?.agree || false
             }
-            warning={true}
+            warning={wraning && agreement.required}
           >
             <CheckboxDesc>{agreement.desc}</CheckboxDesc>
             <RequiredText required={agreement.required}>
@@ -49,7 +86,9 @@ const Agreement = () => {
           </Checkbox>
         ))}
       </CheckboxContainer>
-      {true && <RequiredWarningText>필수 동의 항목입니다.</RequiredWarningText>}
+      {wraning && (
+        <RequiredWarningText>필수 동의 항목입니다.</RequiredWarningText>
+      )}
     </Wrapper>
   )
 }
@@ -70,10 +109,16 @@ const CheckboxContainer = styled.div`
   border-radius: 4px;
 `
 
-const CheckboxDesc = styled.span`
+const CheckboxDesc = styled.span<{ all?: boolean }>`
   color: ${({ theme }) => theme.colors.BLACK_3};
   ${({ theme }) => theme.fonts.BODY_2};
   margin-left: 5px;
+
+  ${({ all, theme }) =>
+    all &&
+    css`
+      ${theme.fonts.BODY_1};
+    `}
 `
 const RequiredText = styled.span<{ required: boolean }>`
   color: ${({ theme, required }) =>

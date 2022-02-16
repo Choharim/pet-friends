@@ -26,7 +26,7 @@ const Navigation = () => {
       <Logo>
         <LogoText onClick={goToHome}>pet friends</LogoText>
         <LogoImg
-          src="https://cdn-icons.flaticon.com/png/512/3629/premium/3629576.png?token=exp=1644589329~hmac=a731cfb34156cf97adc94289c37edd7e"
+          src={`${ICON_CDN_URL}/512/1279/1279250.png`}
           alt="navigation-logo-img"
         />
       </Logo>
@@ -75,7 +75,7 @@ const LogoText = styled.span`
 const LogoImg = styled.img`
   width: 32px;
   height: 32px;
-  margin-left: 12px;
+  margin-left: 15px;
 `
 
 const LoginButton = styled.span`

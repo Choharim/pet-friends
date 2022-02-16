@@ -40,6 +40,12 @@ const auth = createSlice({
         agreement.field === payload.field ? payload : agreement
       )
     },
+    setTermsAgreements: (state, { payload }: PayloadAction<boolean>) => {
+      state.termsAgreements = state.termsAgreements.map((agreement) => ({
+        ...agreement,
+        agree: payload,
+      }))
+    },
   },
 })
 
