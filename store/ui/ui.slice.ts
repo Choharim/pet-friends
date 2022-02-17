@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { UIState, ModalName, Toast } from './ui.type'
+import { AxiosError } from 'axios'
+import { asyncState } from 'store/utils/async'
+import { UIState, ModalName, Toast, Food } from './ui.type'
 
 const initialState: UIState = {
+  async: {
+    getFoods: asyncState.initial(),
+  },
   modals: [],
   toasts: [],
+  foods: [],
 }
 
 const ui = createSlice({
@@ -25,6 +31,16 @@ const ui = createSlice({
     },
     clearToast: (state, _: PayloadAction) => {
       state.toasts = state.toasts.slice(0, -1)
+    },
+    getFoodsStart: (state) => {
+      state.async.getFoods = asyncState.load()
+    },
+    getFoodsSuccess: (state, { payload }: PayloadAction<Food[]>) => {
+      state.async.getFoods = asyncState.success()
+      state.foods = payload
+    },
+    getFoodsFail: (state, { payload }: PayloadAction<AxiosError>) => {
+      state.async.getFoods = asyncState.error(payload)
     },
   },
 })

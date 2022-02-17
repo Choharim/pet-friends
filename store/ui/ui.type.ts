@@ -1,3 +1,5 @@
+import { AsyncState } from 'store/utils/async'
+
 export type ModalName = 'SignUpSuccess' | 'ReconfirmAccountWithdrawal'
 
 export enum ToastDescKey {
@@ -20,8 +22,23 @@ export const TOAST_DESC_MAP = {
 } as const
 
 export type UIState = {
+  async: {
+    getFoods: AsyncState
+  }
   modals: ModalName[]
   toasts: Toast[]
+  foods: Food[]
 }
 
 export type Toast = { descKey: ToastDescKey; key: number }
+
+export type Food = {
+  category: string
+  main_image: string
+  detail_image: string
+  name: string
+  price: number
+  desc: string
+  ingredients: string[]
+  difficulty_level: number
+}

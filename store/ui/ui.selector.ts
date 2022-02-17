@@ -6,3 +6,5 @@ const selectUI = (state: RootState) => state.ui
 export const selectModals = createSelector([selectUI], (ui) => ui.modals)
 
 export const selectToasts = createSelector([selectUI], (ui) => ui.toasts)
+
+export const selectFoods = createSelector([selectUI], (ui) => ui.foods)

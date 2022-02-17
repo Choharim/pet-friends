@@ -1,7 +1,9 @@
+import { AxiosError } from 'axios'
+
 export type AsyncState = {
   data: true | null
   loading: boolean
-  error: string | null
+  error: AxiosError | null
 }
 
 export const asyncState = {
@@ -20,7 +22,7 @@ export const asyncState = {
     data: true,
     error: null,
   }),
-  error: (error: string): AsyncState => ({
+  error: (error: AxiosError): AsyncState => ({
     loading: false,
     data: null,
     error,
