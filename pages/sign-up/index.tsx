@@ -49,6 +49,7 @@ const SignUp = () => {
 
     dispatch(authActions.signUpStart())
   }
+
   return (
     <Layout title="회원가입">
       <Wrapper>

@@ -2,15 +2,16 @@ import styled from '@emotion/styled'
 import React, { ChangeEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from 'store/auth/auth.slice'
-import { selectPassword } from 'store/auth/auth.selector'
+import { selectLoginAsync, selectPassword } from 'store/auth/auth.selector'
 
 import Input, { InputBox } from 'components/input/input'
-import { WarningText } from 'constants/auth'
+import { FirebaseErrorCode, WarningText } from 'constants/auth'
 import { checkPasswordFormat } from 'utils'
 
 const Password = () => {
   const dispatch = useDispatch()
   const password = useSelector(selectPassword)
+  const { error } = useSelector(selectLoginAsync)
   const [showPassword, setShowPassword] = useState(false)
 
   const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +29,12 @@ const Password = () => {
       return WarningText.required
     } else if (!checkPasswordFormat(password)) {
       return '비밀번호는 영문, 숫자를 포함하여 8자 이상이어야 합니다.'
+    } else if (error?.code === FirebaseErrorCode.invalidPassword) {
+      return '잘못된 비밀번호입니다.'
+    } else if (error?.code === FirebaseErrorCode.notFoundUser) {
+      return '가입되지 않은 정보입니다.'
+    } else if (error) {
+      return '알 수 없는 오류가 발생했습니다. 잠시후에 다시 시도해주세요.'
     }
   }
 

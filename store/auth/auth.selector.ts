@@ -3,6 +3,13 @@ import { RootState } from 'store/root.reducer'
 
 const selectAuth = (state: RootState) => state.auth
 
+const selectAsync = createSelector([selectAuth], (auth) => auth.async)
+
+export const selectLoginAsync = createSelector(
+  [selectAsync],
+  (async) => async.login
+)
+
 export const selectUser = createSelector([selectAuth], (auth) => auth.user)
 
 export const selectSignUpData = createSelector([selectUser], (user) => ({

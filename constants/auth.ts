@@ -21,3 +21,10 @@ export const TERMS_AGREEMENTS: {
     desc: '이벤트, 프로모션 알림 메일 및 SMS 수신',
   },
 ]
+
+export const LOCALSTORAGE_USER_KEY = 'pet-friends_id'
+
+export const FirebaseErrorCode = {
+  invalidPassword: 'auth/wrong-password',
+  notFoundUser: 'auth/user-not-found',
+}

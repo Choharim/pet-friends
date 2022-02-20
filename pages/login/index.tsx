@@ -2,18 +2,41 @@ import styled from '@emotion/styled'
 import Layout from 'components/layout/layout'
 import { ICON_CDN_URL, pageNames } from 'constants/common'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Email from 'components/input/email'
 import Password from 'components/input/password'
 import ResetPasswordAndSignUp from './_containers/find-password-and-sign-up'
+import { useDispatch, useSelector } from 'react-redux'
+import { authActions } from 'store/auth/auth.slice'
+import { checkEmailFormat, checkPasswordFormat } from 'utils/regex'
+import { selectEmail, selectPassword } from 'store/auth/auth.selector'
 
 const Login = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
+  const email = useSelector(selectEmail)
+  const password = useSelector(selectPassword)
+
+  useEffect(() => {
+    return () => {
+      dispatch(authActions.clearLogin())
+    }
+  }, [dispatch])
 
   const goToHome = () => {
     router.push(pageNames.HOME)
   }
-  //TODO: 이메일,비밀번호 모두 유효하면 로그인
+
+  const goToLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+
+    if (!checkEmailFormat(email) || !checkPasswordFormat(password)) {
+      return
+    }
+
+    dispatch(authActions.loginStart())
+  }
+
   return (
     <Layout title="로그인" isFullScreen>
       <Wrapper>
@@ -26,8 +49,8 @@ const Login = () => {
         <LoginForm>
           <Email />
           <Password />
+          <LoginButton onClick={goToLogin}>이메일 로그인</LoginButton>
         </LoginForm>
-        <LoginButton>이메일 로그인</LoginButton>
         <ResetPasswordAndSignUp />
       </Wrapper>
     </Layout>

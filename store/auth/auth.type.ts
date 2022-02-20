@@ -1,6 +1,6 @@
 import { AsyncState } from 'store/utils/async'
 
-type AuthAsync = 'signUp'
+type AuthAsync = 'signUp' | 'login' | 'persistUser'
 
 export type AuthState = {
   async: { [key in AuthAsync]: AsyncState }
