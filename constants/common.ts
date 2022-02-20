@@ -9,7 +9,7 @@ export const deviceSizes = {
 
 export const ICON_CDN_URL = 'https://cdn-icons-png.flaticon.com'
 
-export const NAVIGATION_HEIGHT = '58px'
+export const NAVIGATION_HEIGHT = '60px'
 
 export const pageNames = {
   HOME: '/',

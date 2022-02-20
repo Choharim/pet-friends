@@ -4,17 +4,20 @@ import { RootState } from 'store/root.reducer'
 const selectAuth = (state: RootState) => state.auth
 
 export const selectSignUpData = createSelector([selectAuth], (auth) => ({
-  email: auth.email,
-  password: auth.password,
-  nickName: auth.nickName,
-  termsAgreements: auth.termsAgreements,
+  email: auth.user.email,
+  password: auth.user.password,
+  nickName: auth.user.nickName,
+  termsAgreements: auth.user.termsAgreements,
 }))
 
-export const selectEmail = createSelector([selectAuth], (auth) => auth.email)
+export const selectEmail = createSelector(
+  [selectAuth],
+  (auth) => auth.user.email
+)
 
 export const selectPassword = createSelector(
   [selectAuth],
-  (auth) => auth.password
+  (auth) => auth.user.password
 )
 
 export const selectIsLogin = createSelector(
@@ -24,10 +27,10 @@ export const selectIsLogin = createSelector(
 
 export const selectNickName = createSelector(
   [selectAuth],
-  (auth) => auth.nickName
+  (auth) => auth.user.nickName
 )
 
 export const selectTermsAgreements = createSelector(
   [selectAuth],
-  (auth) => auth.termsAgreements
+  (auth) => auth.user.termsAgreements
 )

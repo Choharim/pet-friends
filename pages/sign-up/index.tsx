@@ -1,12 +1,13 @@
 import styled from '@emotion/styled'
-import Button, { ButtonBox } from 'components/button/button'
+import Button from 'components/button/button'
 import Email from 'components/input/email'
 import Password from 'components/input/password'
 import Layout from 'components/layout/layout'
 import { TERMS_AGREEMENTS } from 'constants/auth'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectSignUpData } from 'store/auth/auth.selector'
+import { authActions } from 'store/auth/auth.slice'
 import { uiActions } from 'store/ui/ui.slice'
 import { ToastDescKey } from 'store/ui/ui.type'
 import { checkEmailFormat, checkPasswordFormat } from 'utils'
@@ -17,6 +18,12 @@ const SignUp = () => {
   const dispatch = useDispatch()
   const { email, password, nickName, termsAgreements } =
     useSelector(selectSignUpData)
+
+  useEffect(() => {
+    return () => {
+      dispatch(authActions.clearSignUp())
+    }
+  }, [dispatch])
 
   const goToSignUp = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -40,7 +47,7 @@ const SignUp = () => {
       return
     }
 
-    //TODO 회원가입 api post
+    dispatch(authActions.signUpStart())
   }
   return (
     <Layout title="회원가입">
@@ -65,8 +72,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 390px;
-  height: 100%;
-  padding-top: 100px;
+  padding: 60px 0 30px;
   margin: 0 auto;
 `
 

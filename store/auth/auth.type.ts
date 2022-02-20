@@ -1,11 +1,22 @@
+import { AsyncState } from 'store/utils/async'
+
+type AuthAsync = 'signUp' | 'setUserData'
+
 export type AuthState = {
+  async: { [key in AuthAsync]: AsyncState }
+  user: User
+
+  isLogin: boolean
+}
+
+export type User = {
+  id: string
   email: string
   password: string
   nickName: string
-  profileUrl: string
-  phoneNumber: number
-  isLogin: boolean
   termsAgreements: TermsAgreement[]
+  profileUrl?: string
+  phoneNumber?: number
 }
 
 export type TermsAgreement = {
@@ -14,5 +25,27 @@ export type TermsAgreement = {
     | 'event-notification'
     | 'collection-of-personal-information'
   agree: boolean
-  updated: number
 }
+
+export const initializeTermsAgreements = (): TermsAgreement[] => [
+  { field: 'terms-of-use', agree: false },
+  {
+    field: 'collection-of-personal-information',
+    agree: false,
+  },
+  { field: 'event-notification', agree: false },
+]
+
+export const initializeUser = (): User =>
+  Object.assign(
+    {},
+    {
+      id: '',
+      email: '',
+      password: '',
+      nickName: '',
+      profileUrl: '',
+      phoneNumber: 0,
+      termsAgreements: initializeTermsAgreements(),
+    }
+  )

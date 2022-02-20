@@ -29,7 +29,7 @@ const ui = createSlice({
     showToast: (state, { payload: { descKey, key } }: PayloadAction<Toast>) => {
       state.toasts = [{ descKey, key }, ...state.toasts]
     },
-    clearToast: (state, _: PayloadAction) => {
+    clearToast: (state) => {
       state.toasts = state.toasts.slice(0, -1)
     },
     getFoodsStart: (state) => {

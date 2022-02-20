@@ -1,41 +1,47 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import Navigation from 'components/nav/navigation'
-import { deviceSizes } from 'constants/common'
 import Head from 'next/head'
-import { ReactNode } from 'react'
+import { Fragment, ReactNode } from 'react'
+import Frame from './frame'
 
 interface LayoutProps {
   title?: string
   children: ReactNode
+  isFullScreen?: boolean
 }
 
-const Layout = ({ children, title }: LayoutProps) => {
+const Layout = ({ children, title, isFullScreen = false }: LayoutProps) => {
   return (
-    <LayoutWrapper>
+    <Fragment>
       <Head>
         <title>펫프렌즈{!!title && `-${title}`}</title>
       </Head>
-      <Body>
+
+      <Body isFullScreen={isFullScreen}>
         <Navigation />
-        {children}
+        <Frame>{children}</Frame>
       </Body>
-      <footer></footer>
+
       <div id="modal-container"></div>
       <div id="toast-container"></div>
-    </LayoutWrapper>
+    </Fragment>
   )
 }
 
 export default Layout
 
-const LayoutWrapper = styled.div`
+const Body = styled.div<{ isFullScreen?: boolean }>`
   display: flex;
-  justify-content: center;
-  height: 100%;
+  flex-direction: column;
+
+  ${({ isFullScreen }) =>
+    isFullScreen
+      ? css`
+          min-height: 100%;
+        `
+      : css`
+          height: 100%;
+        `}
   background-color: ${({ theme }) => theme.colors.GREY_4};
-`
-const Body = styled.div`
-  max-width: ${deviceSizes.MIN_TABLET_SIZE}px;
-  width: 100%;
-  background-color: ${({ theme }) => theme.colors.WHITE};
 `

@@ -1,22 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AuthState, TermsAgreement } from './auth.type'
+import { AxiosError } from 'axios'
+import { FirebaseError } from 'firebase/app'
+import { asyncState } from 'store/utils/async'
+import { AuthState, initializeUser, TermsAgreement } from './auth.type'
 
 const initialState: AuthState = {
+  async: {
+    signUp: asyncState.initial(),
+    setUserData: asyncState.initial(),
+  },
   isLogin: false,
-  email: '',
-  password: '',
-  nickName: '',
-  profileUrl: '',
-  phoneNumber: 0,
-  termsAgreements: [
-    { field: 'terms-of-use', agree: false, updated: 0 },
-    {
-      field: 'collection-of-personal-information',
-      agree: false,
-      updated: 0,
-    },
-    { field: 'event-notification', agree: false, updated: 0 },
-  ],
+  user: initializeUser(),
 }
 
 const auth = createSlice({
@@ -24,27 +18,45 @@ const auth = createSlice({
   initialState,
   reducers: {
     setEmail: (state, { payload }: PayloadAction<string>) => {
-      state.email = payload
+      state.user.email = payload
     },
     setPassword: (state, { payload }: PayloadAction<string>) => {
-      state.password = payload
+      state.user.password = payload
     },
     setNickName: (state, { payload }: PayloadAction<string>) => {
-      state.nickName = payload
+      state.user.nickName = payload
     },
     updateTermsAgreements: (
       state,
       { payload }: PayloadAction<TermsAgreement>
     ) => {
-      state.termsAgreements = state.termsAgreements.map((agreement) =>
+      state.user.termsAgreements = state.user.termsAgreements.map((agreement) =>
         agreement.field === payload.field ? payload : agreement
       )
     },
     setTermsAgreements: (state, { payload }: PayloadAction<boolean>) => {
-      state.termsAgreements = state.termsAgreements.map((agreement) => ({
-        ...agreement,
-        agree: payload,
-      }))
+      state.user.termsAgreements = state.user.termsAgreements.map(
+        (agreement) => ({
+          ...agreement,
+          agree: payload,
+        })
+      )
+    },
+    clearSignUp: (state) => {
+      state.user = initializeUser()
+    },
+
+    signUpStart: (state) => {
+      state.async.signUp = asyncState.load()
+    },
+    signUpSuccess: (state) => {
+      state.async.signUp = asyncState.success()
+    },
+    signUpFail: (
+      state,
+      { payload }: PayloadAction<AxiosError | FirebaseError>
+    ) => {
+      state.async.signUp = asyncState.error(payload)
     },
   },
 })

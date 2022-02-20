@@ -1,4 +1,5 @@
 import { ThemeProvider, Global } from '@emotion/react'
+import 'firebase-config'
 import type { AppProps } from 'next/app'
 import { reduxWrapper } from 'store'
 import { reset, theme } from '../theme'

@@ -15,7 +15,7 @@ const Login = () => {
   }
   //TODO: 이메일,비밀번호 모두 유효하면 로그인
   return (
-    <Layout title="로그인">
+    <Layout title="로그인" isFullScreen>
       <Wrapper>
         <LoginIcon
           onClick={goToHome}
@@ -41,8 +41,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 390px;
-  height: 100%;
-  padding-top: 100px;
+  padding: 100px 0 30px;
   margin: 0 auto;
 `
 

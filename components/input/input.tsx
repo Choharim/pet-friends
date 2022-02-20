@@ -1,18 +1,30 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import React, { InputHTMLAttributes, useState } from 'react'
+import React, {
+  InputHTMLAttributes,
+  ReactElement,
+  useRef,
+  useState,
+} from 'react'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   errorText?: string
   label?: string
   labelDesc?: string
+  leftChildren?: ReactElement
+  rightChildren?: ReactElement
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { id, label, errorText, labelDesc } = props
+const Input = (props: InputProps) => {
+  const { id, label, errorText, labelDesc, leftChildren, rightChildren } = props
   const [blur, setBlur] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const isInvalid = blur && !!errorText
+
+  const focusInput = () => {
+    if (inputRef.current) inputRef.current.focus()
+  }
 
   return (
     <InputWrapper>
@@ -20,19 +32,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         {label}
       </Label>
       {!!labelDesc && <LabelDesc>{labelDesc}</LabelDesc>}
-      <InputBox
-        {...props}
-        ref={ref}
-        id={id}
-        warning={isInvalid}
-        onBlur={() => setBlur(true)}
-      />
+      <InputBox onClick={focusInput} warning={isInvalid}>
+        {leftChildren}
+        <RealInput
+          {...props}
+          ref={inputRef}
+          id={id}
+          onBlur={() => setBlur(true)}
+        />
+        {rightChildren}
+      </InputBox>
       {isInvalid && <ErrorText>{errorText}</ErrorText>}
     </InputWrapper>
   )
-})
-
-Input.displayName = 'Input'
+}
 
 export default React.memo(Input)
 
@@ -54,11 +67,15 @@ const LabelDesc = styled.span`
   color: ${({ theme }) => theme.colors.GREY_6};
 `
 
-const InputBox = styled.input<{ warning: boolean }>`
+export const InputBox = styled.div<{ warning: boolean }>`
+  display: flex;
+  align-items: center;
+
   width: 100%;
   height: 48px;
   padding: 12px;
   border-radius: 4px;
+  cursor: text;
 
   ${({ theme, warning }) =>
     warning
@@ -68,14 +85,18 @@ const InputBox = styled.input<{ warning: boolean }>`
         `
       : css`
           border: 1px solid ${theme.colors.GREY_5};
-          &:focus {
+          &:focus-within {
             border: 1px solid ${theme.colors.MAIN_1};
             box-shadow: 0 0 0 3px rgb(227 183 160 / 45%);
           }
         `}
+`
+
+const RealInput = styled.input`
+  border: none;
 
   &::placeholder {
-    ${({ theme }) => theme.fonts.BODY_1};
+    ${({ theme }) => theme.fonts.BODY_2};
     color: ${({ theme }) => theme.colors.BLACK_1};
   }
 `

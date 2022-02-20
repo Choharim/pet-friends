@@ -1,9 +1,10 @@
 import { AxiosError } from 'axios'
+import { FirebaseError } from 'firebase/app'
 
 export type AsyncState = {
   data: true | null
   loading: boolean
-  error: AxiosError | null
+  error: AxiosError | FirebaseError | null
 }
 
 export const asyncState = {
@@ -22,7 +23,7 @@ export const asyncState = {
     data: true,
     error: null,
   }),
-  error: (error: AxiosError): AsyncState => ({
+  error: (error: AxiosError | FirebaseError): AsyncState => ({
     loading: false,
     data: null,
     error,

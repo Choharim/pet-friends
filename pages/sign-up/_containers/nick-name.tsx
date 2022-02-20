@@ -40,4 +40,4 @@ const NickName = () => {
   )
 }
 
-export default NickName
+export default React.memo(NickName)

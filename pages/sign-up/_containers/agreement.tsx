@@ -31,7 +31,6 @@ const Agreement = () => {
       authActions.updateTermsAgreements({
         field: id as TermsAgreement['field'],
         agree: checked,
-        updated: new Date().getTime(),
       })
     )
   }
@@ -93,7 +92,7 @@ const Agreement = () => {
   )
 }
 
-export default Agreement
+export default React.memo(Agreement)
 
 const Wrapper = styled.div`
   display: flex;

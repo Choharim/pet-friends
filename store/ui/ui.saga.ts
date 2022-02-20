@@ -4,7 +4,6 @@ import {
   delay,
   fork,
   put,
-  select,
   takeEvery,
   takeLeading,
 } from 'redux-saga/effects'

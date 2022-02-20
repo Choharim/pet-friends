@@ -1,5 +1,10 @@
 import styled from '@emotion/styled'
-import { ICON_CDN_URL, NAVIGATION_HEIGHT, pageNames } from 'constants/common'
+import {
+  deviceSizes,
+  ICON_CDN_URL,
+  NAVIGATION_HEIGHT,
+  pageNames,
+} from 'constants/common'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -19,16 +24,12 @@ const Navigation = () => {
 
   return (
     <NavBox>
-      <Navbars
-        src={`${ICON_CDN_URL}/512/545/545705.png`}
-        alt="navigation_bars"
-      />
       <Logo>
-        <LogoText onClick={goToHome}>pet friends</LogoText>
         <LogoImg
           src={`${ICON_CDN_URL}/512/1279/1279250.png`}
           alt="navigation-logo-img"
         />
+        <LogoText onClick={goToHome}>pet friends</LogoText>
       </Logo>
       {/**
        * TODO: user profile component 생성
@@ -38,34 +39,35 @@ const Navigation = () => {
   )
 }
 
-export default Navigation
+export default React.memo(Navigation)
 
 const NavBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: ${NAVIGATION_HEIGHT};
+  min-height: ${NAVIGATION_HEIGHT};
   width: 100%;
-  padding: 16px 24px;
+  max-width: ${deviceSizes.MIN_TABLET_SIZE}px;
+  margin: 0 auto;
+  padding: 0 15px;
+  background-color: ${({ theme }) => theme.colors.WHITE};
   border-bottom: 1px solid ${({ theme }) => theme.colors.GREY_2};
 `
-const Navbars = styled.img`
-  width: 24px;
-  height: 24px;
-  padding: 4px;
+// const Navbars = styled.img`
+//   width: 24px;
+//   height: 24px;
+//   padding: 4px;
 
-  cursor: pointer;
-`
+//   cursor: pointer;
+// `
 const Logo = styled.div`
   display: flex;
   align-items: flex-end;
 `
 
 const LogoText = styled.span`
-  font-family: 'Black Han Sans', sans-serif;
-  font-family: 'Do Hyeon', sans-serif;
-  font-family: 'Nanum Gothic', sans-serif;
   font-family: 'Permanent Marker', cursive;
+  margin-left: 15px;
 
   ${({ theme }) => theme.fonts.HEADER_2};
   color: ${({ theme }) => theme.colors.MAIN_1};
@@ -75,7 +77,6 @@ const LogoText = styled.span`
 const LogoImg = styled.img`
   width: 32px;
   height: 32px;
-  margin-left: 15px;
 `
 
 const LoginButton = styled.span`

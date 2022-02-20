@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from 'store/auth/auth.slice'
 import { selectPassword } from 'store/auth/auth.selector'
 
-import Input from 'components/input/input'
+import Input, { InputBox } from 'components/input/input'
 import { WarningText } from 'constants/auth'
 import { checkPasswordFormat } from 'utils'
 
@@ -41,26 +41,30 @@ const Password = () => {
         value={password}
         onChange={changePassword}
         errorText={showErrorText() || ''}
+        rightChildren={
+          <ShowPasswodButton onClick={clickShowPasswordButton}>
+            {showPassword ? '숨김' : '표시'}
+          </ShowPasswodButton>
+        }
       />
-      <ShowPasswodButton onClick={clickShowPasswordButton}>
-        {showPassword ? '숨김' : '표시'}
-      </ShowPasswodButton>
     </Wrapper>
   )
 }
 
-export default Password
+export default React.memo(Password)
 
 const Wrapper = styled.div`
-  position: relative;
   width: 100%;
+
+  ${InputBox} {
+    position: relative;
+  }
 `
 
 const ShowPasswodButton = styled.span`
   position: absolute;
-  bottom: 12px;
+  top: 12px;
   right: 12px;
-
   padding: 3px;
   ${({ theme }) => theme.fonts.BODY_4};
   color: ${({ theme }) => theme.colors.MAIN_1};
