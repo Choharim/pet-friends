@@ -1,11 +1,11 @@
 import { AsyncState } from 'store/utils/async'
 
-type AuthAsync = 'signUp' | 'setUserData'
+type AuthAsync = 'signUp'
 
 export type AuthState = {
   async: { [key in AuthAsync]: AsyncState }
   user: User
-
+  isDuplicateNickName: boolean
   isLogin: boolean
 }
 

@@ -7,10 +7,11 @@ import { AuthState, initializeUser, TermsAgreement } from './auth.type'
 const initialState: AuthState = {
   async: {
     signUp: asyncState.initial(),
-    setUserData: asyncState.initial(),
   },
-  isLogin: false,
   user: initializeUser(),
+
+  isDuplicateNickName: false,
+  isLogin: false,
 }
 
 const auth = createSlice({
@@ -42,12 +43,18 @@ const auth = createSlice({
         })
       )
     },
+    setIsDuplicateNickName: (state, { payload }: PayloadAction<boolean>) => {
+      state.isDuplicateNickName = payload
+    },
     clearSignUp: (state) => {
+      state.async.signUp = asyncState.initial()
       state.user = initializeUser()
+      state.isDuplicateNickName = false
     },
 
     signUpStart: (state) => {
       state.async.signUp = asyncState.load()
+      state.isDuplicateNickName = false
     },
     signUpSuccess: (state) => {
       state.async.signUp = asyncState.success()

@@ -39,6 +39,26 @@
         }
       ],
       "id": "KWJBWVXVmZPG3SzWsY1CuO533f43"
+    },
+    {
+      "email": "test1@gmail.com",
+      "password": "gkfla8586",
+      "nickName": "moris",
+      "termsAgreements": [
+        {
+          "field": "terms-of-use",
+          "agree": true
+        },
+        {
+          "field": "collection-of-personal-information",
+          "agree": true
+        },
+        {
+          "field": "event-notification",
+          "agree": true
+        }
+      ],
+      "id": "V8Vg9eGgf9Yyn3U3mprRpYw9Kmh2"
     }
   ],
   "foods": [

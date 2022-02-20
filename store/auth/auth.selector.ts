@@ -3,34 +3,38 @@ import { RootState } from 'store/root.reducer'
 
 const selectAuth = (state: RootState) => state.auth
 
-export const selectSignUpData = createSelector([selectAuth], (auth) => ({
-  email: auth.user.email,
-  password: auth.user.password,
-  nickName: auth.user.nickName,
-  termsAgreements: auth.user.termsAgreements,
+export const selectUser = createSelector([selectAuth], (auth) => auth.user)
+
+export const selectSignUpData = createSelector([selectUser], (user) => ({
+  email: user.email,
+  password: user.password,
+  nickName: user.nickName,
+  termsAgreements: user.termsAgreements,
 }))
 
-export const selectEmail = createSelector(
-  [selectAuth],
-  (auth) => auth.user.email
-)
+export const selectEmail = createSelector([selectUser], (user) => user.email)
 
 export const selectPassword = createSelector(
+  [selectUser],
+  (user) => user.password
+)
+
+export const selectNickName = createSelector(
+  [selectUser],
+  (user) => user.nickName
+)
+
+export const selectTermsAgreements = createSelector(
+  [selectUser],
+  (user) => user.termsAgreements
+)
+
+export const selectIsDuplicateNickName = createSelector(
   [selectAuth],
-  (auth) => auth.user.password
+  (auth) => auth.isDuplicateNickName
 )
 
 export const selectIsLogin = createSelector(
   [selectAuth],
   (auth) => auth.isLogin
-)
-
-export const selectNickName = createSelector(
-  [selectAuth],
-  (auth) => auth.user.nickName
-)
-
-export const selectTermsAgreements = createSelector(
-  [selectAuth],
-  (auth) => auth.user.termsAgreements
 )
