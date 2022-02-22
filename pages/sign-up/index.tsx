@@ -44,6 +44,7 @@ const SignUp = () => {
           key: new Date().getTime(),
         })
       )
+
       return
     }
 

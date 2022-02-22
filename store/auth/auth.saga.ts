@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import { LOCALSTORAGE_USER_KEY } from 'constants/auth'
+import { FirebaseErrorCode, LOCALSTORAGE_USER_KEY } from 'constants/auth'
 import { pageNames } from 'constants/common'
 import { FirebaseError } from 'firebase/app'
 import {
@@ -21,6 +21,8 @@ import {
   take,
   takeLeading,
 } from 'redux-saga/effects'
+import { uiActions } from 'store/ui/ui.slice'
+import { ToastDescKey } from 'store/ui/ui.type'
 import { selectSignUpData, selectUser } from './auth.selector'
 import { authActions } from './auth.slice'
 import { User } from './auth.type'
@@ -30,22 +32,30 @@ import { User } from './auth.type'
  * @function signUp
  */
 function* setUserDataInDB(user: User) {
-  yield axios.post(`http://localhost:5000/users`, user)
+  try {
+    yield axios.post(`http://localhost:5000/users`, user)
+  } catch (error) {
+    throw new Error((error as AxiosError).message)
+  }
 }
 
 function* checkDuplicatedNickName(nickName: string) {
-  const res: AxiosResponse = yield axios.get(
-    `http://localhost:5000/users?nickName=${nickName}`
-  )
+  try {
+    const res: AxiosResponse = yield axios.get(
+      `http://localhost:5000/users?nickName=${nickName}`
+    )
 
-  let isDuplicateNickName = false
+    let isDuplicateNickName = false
 
-  if (!!res.data?.length) {
-    yield put(authActions.setIsDuplicateNickName(true))
-    isDuplicateNickName = true
+    if (!!res.data?.length) {
+      yield put(authActions.setIsDuplicateNickName(true))
+      isDuplicateNickName = true
+    }
+
+    return isDuplicateNickName
+  } catch (error) {
+    throw new Error((error as AxiosError).message)
   }
-
-  return isDuplicateNickName
 }
 
 function* firebaseSignUp() {
@@ -80,6 +90,18 @@ function* firebaseSignUp() {
   } catch (error) {
     yield put(authActions.signUpFail(error as AxiosError | FirebaseError))
 
+    if (
+      error &&
+      (error as FirebaseError)?.code !== FirebaseErrorCode.existUser
+    ) {
+      yield put(
+        uiActions.showToast({
+          key: new Date().getTime(),
+          descKey: ToastDescKey.apiError,
+        })
+      )
+    }
+
     const user = getAuth().currentUser
     if (!!user) {
       yield deleteUser(user)
@@ -91,14 +113,18 @@ function* firebaseSignUp() {
  *@function login
  */
 function* getUserDataInDB(id: string) {
-  const res: AxiosResponse = yield axios.get(
-    `http://localhost:5000/users?id=${id}`
-  )
+  try {
+    const res: AxiosResponse = yield axios.get(
+      `http://localhost:5000/users?id=${id}`
+    )
 
-  return res.data?.[0]
+    return res.data?.[0]
+  } catch (error) {
+    throw new Error((error as AxiosError).message)
+  }
 }
 
-function* firebaseFignIn() {
+function* firebaseLogin() {
   try {
     const user: SagaReturnType<typeof selectUser> = yield select(selectUser)
 
@@ -114,7 +140,7 @@ function* firebaseFignIn() {
     const userData: User = yield call(getUserDataInDB, res.user.uid)
 
     // 로그인했을 경우 새로고침해도 로그인을 유지하기 위해 user id localStorage에 저장
-    yield call([localStorage, 'setItem'], LOCALSTORAGE_USER_KEY, userData.id)
+    yield call([localStorage, 'setItem'], LOCALSTORAGE_USER_KEY, res.user.uid)
 
     /**
      * login 페이지 이탈시 user email/password가 초기화되기 때문에
@@ -126,6 +152,19 @@ function* firebaseFignIn() {
     yield put(authActions.loginSuccess(userData))
   } catch (error) {
     yield put(authActions.loginFail(error as AxiosError | FirebaseError))
+
+    if (
+      error &&
+      (error as FirebaseError)?.code !== FirebaseErrorCode.invalidPassword &&
+      (error as FirebaseError)?.code !== FirebaseErrorCode.notFoundUser
+    ) {
+      yield put(
+        uiActions.showToast({
+          key: new Date().getTime(),
+          descKey: ToastDescKey.apiError,
+        })
+      )
+    }
 
     const user = getAuth().currentUser
     if (!!user) {
@@ -157,7 +196,7 @@ function* signUp() {
 }
 
 function* login() {
-  yield takeLeading(authActions.loginStart.type, firebaseFignIn)
+  yield takeLeading(authActions.loginStart.type, firebaseLogin)
   yield takeLeading(authActions.persistUserStart.type, persistUser)
 }
 

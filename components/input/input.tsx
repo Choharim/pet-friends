@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import React, {
   InputHTMLAttributes,
   ReactElement,
+  useEffect,
   useRef,
   useState,
 } from 'react'
@@ -13,14 +14,29 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelDesc?: string
   leftChildren?: ReactElement
   rightChildren?: ReactElement
+  rightNowWarning?: boolean
 }
 
 const Input = (props: InputProps) => {
-  const { id, label, errorText, labelDesc, leftChildren, rightChildren } = props
+  const {
+    id,
+    label,
+    errorText,
+    labelDesc,
+    leftChildren,
+    rightChildren,
+    rightNowWarning,
+  } = props
   const [blur, setBlur] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const isInvalid = blur && !!errorText
+
+  useEffect(() => {
+    if (!!errorText && rightNowWarning) {
+      setBlur(true)
+    }
+  }, [errorText, rightNowWarning])
 
   const focusInput = () => {
     if (inputRef.current) inputRef.current.focus()
@@ -39,6 +55,7 @@ const Input = (props: InputProps) => {
           ref={inputRef}
           id={id}
           onBlur={() => setBlur(true)}
+          onFocus={() => setBlur(false)}
         />
         {rightChildren}
       </InputBox>
@@ -93,6 +110,7 @@ export const InputBox = styled.div<{ warning: boolean }>`
 `
 
 const RealInput = styled.input`
+  width: 100%;
   border: none;
 
   &::placeholder {

@@ -1,12 +1,16 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
+import { TOAST_TIMEOUT } from 'components/toast/toast-container'
 import {
   all,
   delay,
   fork,
   put,
+  SagaReturnType,
+  select,
   takeEvery,
   takeLeading,
 } from 'redux-saga/effects'
+import { selectToasts } from './ui.selector'
 import { uiActions } from './ui.slice'
 
 function* controlAutoModalClose({
@@ -20,9 +24,17 @@ function* controlAutoModalClose({
   }
 }
 
-function* controlAutoToastClose() {
-  yield delay(2500)
-  yield put(uiActions.clearToast())
+function* controlAutoToastClose({
+  payload,
+}: ReturnType<typeof uiActions.showToast>) {
+  const { key, descKey } = payload
+
+  const toasts: SagaReturnType<typeof selectToasts> = yield select(selectToasts)
+  if (!!toasts.find((toast) => toast?.descKey === descKey)) return
+
+  yield put(uiActions.addToast(payload))
+  yield delay(TOAST_TIMEOUT)
+  yield put(uiActions.clearToast(key))
 }
 
 function* getFood() {

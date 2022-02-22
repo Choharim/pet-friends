@@ -26,11 +26,14 @@ const ui = createSlice({
       state.modals = state.modals.filter((modal) => modal !== payload)
     },
 
-    showToast: (state, { payload: { descKey, key } }: PayloadAction<Toast>) => {
-      state.toasts = [{ descKey, key }, ...state.toasts]
+    showToast: (state, { payload }: PayloadAction<Toast>) => {
+      //상태값 업데이트 안함
     },
-    clearToast: (state) => {
-      state.toasts = state.toasts.slice(0, -1)
+    addToast: (state, { payload: { descKey, key } }: PayloadAction<Toast>) => {
+      state.toasts = [...state.toasts, { descKey, key }]
+    },
+    clearToast: (state, { payload }: PayloadAction<Toast['key']>) => {
+      state.toasts = state.toasts.filter((toast) => toast.key !== payload)
     },
     getFoodsStart: (state) => {
       state.async.getFoods = asyncState.load()

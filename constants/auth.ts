@@ -25,6 +25,7 @@ export const TERMS_AGREEMENTS: {
 export const LOCALSTORAGE_USER_KEY = 'pet-friends_id'
 
 export const FirebaseErrorCode = {
-  invalidPassword: 'auth/wrong-password',
-  notFoundUser: 'auth/user-not-found',
+  existUser: 'auth/email-already-in-use', //회원가입시 오류
+  invalidPassword: 'auth/wrong-password', // 로그인시 오류
+  notFoundUser: 'auth/user-not-found', // 로그인시 오류
 }

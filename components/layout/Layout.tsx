@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import Navigation from 'components/nav/navigation'
 import Head from 'next/head'
-import { Fragment, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import Frame from './frame'
 
 interface LayoutProps {
@@ -13,7 +13,7 @@ interface LayoutProps {
 
 const Layout = ({ children, title, isFullScreen = false }: LayoutProps) => {
   return (
-    <Fragment>
+    <>
       <Head>
         <title>펫프렌즈{!!title && `-${title}`}</title>
       </Head>
@@ -22,10 +22,7 @@ const Layout = ({ children, title, isFullScreen = false }: LayoutProps) => {
         <Navigation />
         <Frame>{children}</Frame>
       </Body>
-
-      <div id="modal-container"></div>
-      <div id="toast-container"></div>
-    </Fragment>
+    </>
   )
 }
 

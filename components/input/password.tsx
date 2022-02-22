@@ -32,9 +32,7 @@ const Password = () => {
     } else if (error?.code === FirebaseErrorCode.invalidPassword) {
       return '잘못된 비밀번호입니다.'
     } else if (error?.code === FirebaseErrorCode.notFoundUser) {
-      return '가입되지 않은 정보입니다.'
-    } else if (error) {
-      return '알 수 없는 오류가 발생했습니다. 잠시후에 다시 시도해주세요.'
+      return '가입되지 않은 회원입니다.'
     }
   }
 
@@ -65,6 +63,7 @@ const Wrapper = styled.div`
 
   ${InputBox} {
     position: relative;
+    padding: 12px 45px 12px 12px;
   }
 `
 

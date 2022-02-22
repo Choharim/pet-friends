@@ -10,6 +10,7 @@ import { WarningText } from 'constants/auth'
 
 const MINIMUM_LENGTH = 2
 const MAXIMUM_LENGTH = 15
+const DUPLICATED_NAME = '이미 존재하는 닉네임입니다.'
 
 const NickName = () => {
   const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const NickName = () => {
     } else if (nickName.length > MAXIMUM_LENGTH) {
       return `${MAXIMUM_LENGTH}자 이하로 입력해주세요.`
     } else if (isDuplicateNickName) {
-      return '이미 존재하는 닉네임입니다.'
+      return DUPLICATED_NAME
     }
   }
 
@@ -42,6 +43,7 @@ const NickName = () => {
       onChange={changeNickName}
       value={nickName}
       errorText={showErrorText() || ''}
+      rightNowWarning={showErrorText() === DUPLICATED_NAME}
     />
   )
 }
