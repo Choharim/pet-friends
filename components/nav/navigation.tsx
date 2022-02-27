@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectIsLogin } from 'store/auth/auth.selector'
-import DropdownMemu from './dropdown-memu'
+import DropdownMemu from './dropdown-menu'
 
 const Navigation = () => {
   const router = useRouter()
@@ -25,12 +25,14 @@ const Navigation = () => {
 
   return (
     <NavBox>
-      <Logo>
+      <Navbars src={`${ICON_CDN_URL}/512/1828/1828859.png`} />
+
+      <Logo onClick={goToHome}>
         <LogoImg
           src={`${ICON_CDN_URL}/512/1279/1279250.png`}
           alt="navigation-logo-img"
         />
-        <LogoText onClick={goToHome}>pet friends</LogoText>
+        <LogoText>pet friends</LogoText>
       </Logo>
       {isLogin ? (
         <DropdownMemu />
@@ -43,7 +45,7 @@ const Navigation = () => {
 
 export default React.memo(Navigation)
 
-const NavBox = styled.div`
+const NavBox = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -55,13 +57,12 @@ const NavBox = styled.div`
   background-color: ${({ theme }) => theme.colors.WHITE};
   border-bottom: 1px solid ${({ theme }) => theme.colors.GREY_2};
 `
-// const Navbars = styled.img`
-//   width: 24px;
-//   height: 24px;
-//   padding: 4px;
-
-//   cursor: pointer;
-// `
+const Navbars = styled.img`
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  cursor: pointer;
+`
 const Logo = styled.div`
   display: flex;
   align-items: flex-end;

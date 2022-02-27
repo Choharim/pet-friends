@@ -1,4 +1,4 @@
-import { css, keyframes } from '@emotion/react'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { ICON_CDN_URL, pageNames } from 'constants/common'
 import Link from 'next/link'
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectNickName, selectProfileUrl } from 'store/auth/auth.selector'
 import { authActions } from 'store/auth/auth.slice'
 
-type MenuList = {
+export type MenuList = {
   name: string
   url: typeof pageNames[keyof typeof pageNames]
 }
@@ -63,17 +63,20 @@ const DropdownMemu = () => {
   }
 
   return (
-    <DropdownHeaderWrapper ref={dropdownHeaderRef} onClick={toggleDropdown}>
+    <DropdownHeaderWrapper
+      ref={dropdownHeaderRef}
+      onClick={toggleDropdown}
+      open={open}
+    >
       <ProfileImg
-        src={profileUrl || `${ICON_CDN_URL}/512/848/848006.png`}
+        src={profileUrl || `${ICON_CDN_URL}/512/847/847969.png`}
         alt="user-profile"
       />
       <DropdownArrowIcon
         src={`${ICON_CDN_URL}/512/892/892528.png`}
         alt="user-profile_dropdown-arrow"
-        open={open}
       />
-      <DropdownBox ref={dropdownBoxRef} open={open}>
+      <DropdownBox ref={dropdownBoxRef}>
         <MenuContainer>
           <UserNickName>{nickName} 주인님</UserNickName>
           {MenuList.map((menu) => (
@@ -92,32 +95,48 @@ const DropdownMemu = () => {
 
 export default DropdownMemu
 
-const DropdownHeaderWrapper = styled.div`
+const DropdownHeaderWrapper = styled.div<{ open: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  ${({ open, theme }) =>
+    open
+      ? css`
+          ${ProfileImg} {
+            border: 2px solid ${theme.colors.MAIN_1};
+          }
+        `
+      : css`
+          ${DropdownBox} {
+            display: none;
+          }
+
+          ${DropdownArrowIcon} {
+            transform: rotate(-90deg);
+          }
+        `}
 `
 
 const ProfileImg = styled.img`
   width: 32px;
   height: 32px;
-  border: 50%;
+  border-radius: 50%;
   margin-right: 10px;
+  border: 2px solid transparent;
+
+  &:hover {
+    border: 2px solid ${({ theme }) => theme.colors.MAIN_1};
+  }
 `
-const DropdownArrowIcon = styled.img<{ open: boolean }>`
+const DropdownArrowIcon = styled.img`
   width: 12px;
   height: 12px;
   transform: rotate(90deg);
-
-  ${({ open }) =>
-    open &&
-    css`
-      transform: rotate(-90deg);
-    `}
 `
 
-const DropdownBox = styled.div<{ open: boolean }>`
+const DropdownBox = styled.div`
   position: absolute;
   top: 40px;
   right: 0;
@@ -127,12 +146,6 @@ const DropdownBox = styled.div<{ open: boolean }>`
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.WHITE};
   box-shadow: 0 0 0.625rem 0 rgb(0 0 0 / 10%);
-
-  ${({ open }) =>
-    !open &&
-    css`
-      display: none;
-    `}
 `
 const UserNickName = styled.span`
   ${({ theme }) => theme.fonts.SUB_TITLE_4};

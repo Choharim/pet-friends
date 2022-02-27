@@ -9,13 +9,19 @@ import ResetPasswordAndSignUp from './_containers/find-password-and-sign-up'
 import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from 'store/auth/auth.slice'
 import { checkEmailFormat, checkPasswordFormat } from 'utils/regex'
-import { selectEmail, selectPassword } from 'store/auth/auth.selector'
+import {
+  selectEmail,
+  selectLoginAsync,
+  selectPassword,
+} from 'store/auth/auth.selector'
+import CircleSpiner from 'components/spiner/circle-spiner'
 
 const Login = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const email = useSelector(selectEmail)
   const password = useSelector(selectPassword)
+  const { loading } = useSelector(selectLoginAsync)
 
   useEffect(() => {
     return () => {
@@ -49,7 +55,10 @@ const Login = () => {
         <LoginForm>
           <Email />
           <Password />
-          <LoginButton onClick={goToLogin}>이메일 로그인</LoginButton>
+          <LoginButton onClick={goToLogin}>
+            이메일 로그인
+            {loading && <CircleSpiner />}
+          </LoginButton>
         </LoginForm>
         <ResetPasswordAndSignUp />
       </Wrapper>
@@ -87,6 +96,9 @@ const LoginForm = styled.form`
   gap: 30px;
 `
 const LoginButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 48px;
   margin: 40px 0 20px;
