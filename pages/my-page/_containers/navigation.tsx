@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 
 const Tab: MenuList[] = [
-  { name: '프로필', url: pageNames.MY_PAGE },
+  { name: '프로필', url: pageNames.MY_PROFILE },
   {
     name: '나의 쇼핑',
     url: pageNames.MY_SHOP,
@@ -49,7 +49,7 @@ const Navigation = () => {
       <NavContainer>
         {Tab.map((menu) => (
           <MenuWrapper
-            ref={menu.url === pageNames.MY_PAGE ? firstActiveMenu : null}
+            ref={menu.url === router.pathname ? firstActiveMenu : null}
             key={`${menu.name}_in_myPage`}
             active={router.pathname === menu.url}
             onClick={clickMenu}

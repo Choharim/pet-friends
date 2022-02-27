@@ -15,7 +15,7 @@ export type MenuList = {
 const MenuList: MenuList[] = [
   {
     name: '마이페이지',
-    url: pageNames.MY_PAGE,
+    url: pageNames.MY_PROFILE,
   },
   {
     name: '내 수업',
