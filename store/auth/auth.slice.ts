@@ -9,6 +9,7 @@ const initialState: AuthState = {
     signUp: asyncState.initial(),
     login: asyncState.initial(),
     persistUser: asyncState.initial(),
+    logout: asyncState.initial(),
   },
   user: initializeUser(),
 
@@ -107,6 +108,21 @@ const auth = createSlice({
     },
     persistUserFail: (state, { payload }: PayloadAction<AxiosError>) => {
       state.async.persistUser = asyncState.error(payload)
+    },
+
+    /**
+     * @function async/logout
+     */
+    logoutStart: (state) => {
+      state.async.logout = asyncState.load()
+    },
+    logoutSuccess: (state) => {
+      state.async.logout = asyncState.success()
+      state.user = initializeUser()
+      state.isLogin = false
+    },
+    logoutFail: (state, { payload }: PayloadAction<AxiosError>) => {
+      state.async.logout = asyncState.error(payload)
     },
   },
 })

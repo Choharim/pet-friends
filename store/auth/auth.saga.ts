@@ -27,6 +27,13 @@ import { selectSignUpData, selectUser } from './auth.selector'
 import { authActions } from './auth.slice'
 import { User } from './auth.type'
 
+function* LogoutByFirebase() {
+  const user = getAuth().currentUser
+  if (!!user) {
+    const auth = getAuth()
+    yield signOut(auth)
+  }
+}
 /**
  *
  * @function signUp
@@ -166,11 +173,7 @@ function* firebaseLogin() {
       )
     }
 
-    const user = getAuth().currentUser
-    if (!!user) {
-      const auth = getAuth()
-      yield signOut(auth)
-    }
+    yield call(LogoutByFirebase)
   }
 }
 
@@ -191,6 +194,18 @@ function* persistUser() {
   }
 }
 
+function* firebaseLogout() {
+  try {
+    yield call(LogoutByFirebase)
+
+    yield call([localStorage, 'removeItem'], LOCALSTORAGE_USER_KEY)
+
+    yield put(authActions.logoutSuccess())
+  } catch (error) {
+    yield put(authActions.logoutFail(error as AxiosError))
+  }
+}
+
 function* signUp() {
   yield takeLeading(authActions.signUpStart.type, firebaseSignUp)
 }
@@ -200,8 +215,12 @@ function* login() {
   yield takeLeading(authActions.persistUserStart.type, persistUser)
 }
 
+function* logout() {
+  yield takeLeading(authActions.logoutStart.type, firebaseLogout)
+}
+
 function* authSaga() {
-  yield all([fork(signUp), fork(login)])
+  yield all([fork(signUp), fork(login), fork(logout)])
 }
 
 export default authSaga

@@ -41,6 +41,11 @@ export const selectTermsAgreements = createSelector(
   (user) => user.termsAgreements
 )
 
+export const selectProfileUrl = createSelector(
+  [selectUser],
+  (user) => user.profileUrl
+)
+
 export const selectIsDuplicateNickName = createSelector(
   [selectAuth],
   (auth) => auth.isDuplicateNickName

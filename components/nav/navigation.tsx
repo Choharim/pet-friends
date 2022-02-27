@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectIsLogin } from 'store/auth/auth.selector'
+import DropdownMemu from './dropdown-memu'
 
 const Navigation = () => {
   const router = useRouter()
@@ -31,10 +32,11 @@ const Navigation = () => {
         />
         <LogoText onClick={goToHome}>pet friends</LogoText>
       </Logo>
-      {/**
-       * TODO: user profile component 생성
-       */}
-      {isLogin ? null : <LoginButton onClick={goToLogin}>로그인</LoginButton>}
+      {isLogin ? (
+        <DropdownMemu />
+      ) : (
+        <LoginButton onClick={goToLogin}>로그인</LoginButton>
+      )}
     </NavBox>
   )
 }
