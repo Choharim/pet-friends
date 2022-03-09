@@ -10,9 +10,6 @@ declare module '@emotion/react' {
         [key: string]: string | number
       }
     }
-    media: {
-      [key in MediaType]: string
-    }
   }
 }
 

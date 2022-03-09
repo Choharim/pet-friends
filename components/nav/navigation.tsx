@@ -55,7 +55,7 @@ const NavBox = styled.nav`
   justify-content: space-between;
   min-height: ${NAVIGATION_HEIGHT};
   width: 100%;
-  max-width: ${deviceSizes.MIN_TABLET_SIZE}px;
+  max-width: ${deviceSizes.MAX_SIZE}px;
   margin: 0 auto;
   padding: 0 15px;
   background-color: ${({ theme }) => theme.colors.WHITE};

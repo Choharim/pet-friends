@@ -143,6 +143,19 @@ const auth = createSlice({
     ) => {
       state.async.signout = asyncState.error(payload)
     },
+
+    /**
+     * @function async/guard
+     */
+    loginGuardStart: (state) => {
+      // 상태 업데이트 하지 않음
+    },
+    loginGuardSuccess: (state) => {
+      // 상태 업데이트 하지 않음
+    },
+    loginGuardFail: (state) => {
+      // 상태 업데이트 하지 않음
+    },
   },
 })
 

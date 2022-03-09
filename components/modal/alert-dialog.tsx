@@ -7,16 +7,21 @@ type AlertDialogProps = {
   onClickCancelButton: () => void
   onClickConfirmButton: () => void
   title: string
+  error?: string
 }
 const AlertDialog = ({
   onClickCancelButton,
   onClickConfirmButton,
   title,
+  error,
 }: AlertDialogProps) => {
   return (
     <Modal>
       <ModalBox>
-        <Title>{title}</Title>
+        <TextContainer>
+          <Title>{title}</Title>
+          {!!error && <ErrorText>{error}</ErrorText>}
+        </TextContainer>
         <ButtonContainer>
           <CancelButton onClick={onClickCancelButton} themeColor="GREY_1">
             취소
@@ -41,15 +46,27 @@ const ModalBox = styled.div`
   background-color: ${({ theme }) => theme.colors.WHITE};
 `
 
-const Title = styled.div`
+const TextContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 135px;
   width: calc(100% - 40px);
   padding: 0px 20px;
+`
+
+const Title = styled.span`
   color: ${({ theme }) => theme.colors.BLACK_3};
   ${({ theme }) => theme.fonts.SUB_TITLE_2};
+`
+
+const ErrorText = styled.span`
+  color: ${({ theme }) => theme.colors.WARNING};
+  ${({ theme }) => theme.fonts.BODY_3};
+  margin-top: 5px;
+  white-space: pre-wrap;
+  text-align: center;
 `
 
 const ButtonContainer = styled.div`

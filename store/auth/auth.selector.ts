@@ -15,6 +15,11 @@ export const selectSignUpAsync = createSelector(
   (async) => async.signUp
 )
 
+export const selectSignoutAsync = createSelector(
+  [selectAsync],
+  (async) => async.signout
+)
+
 export const selectUser = createSelector([selectAuth], (auth) => auth.user)
 
 export const selectSignUpData = createSelector([selectUser], (user) => ({

@@ -1,5 +1,4 @@
 import { Theme } from '@emotion/react'
-import { deviceSizes } from 'constants/common'
 
 export const theme: Theme = {
   colors: {
@@ -91,9 +90,5 @@ export const theme: Theme = {
       lineHeight: '15px',
       fontWeight: 500,
     },
-  },
-  media: {
-    TABLET: `@media (max-width: ${deviceSizes.MAX_TABLET_SIZE}px)`,
-    MOBILE: `@media (max-width: ${deviceSizes.MAX_MOBILE_SIZE}px)`,
   },
 }
