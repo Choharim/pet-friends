@@ -15,6 +15,7 @@ import {
   selectPassword,
 } from 'store/auth/auth.selector'
 import CircleSpiner from 'components/spiner/circle-spiner'
+import Button from 'components/button/button'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -55,7 +56,7 @@ const Login = () => {
         <LoginForm>
           <Email />
           <Password />
-          <LoginButton onClick={goToLogin}>
+          <LoginButton themeColor="MAIN_5" onClick={goToLogin}>
             이메일 로그인
             {loading && <CircleSpiner />}
           </LoginButton>
@@ -95,23 +96,6 @@ const LoginForm = styled.form`
   width: 100%;
   gap: 30px;
 `
-const LoginButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 48px;
+const LoginButton = styled(Button)`
   margin: 40px 0 20px;
-  background-color: ${({ theme }) => theme.colors.MAIN_2};
-  ${({ theme }) => theme.fonts.SUB_TITLE_4};
-  color: ${({ theme }) => theme.colors.WHITE};
-
-  cursor: pointer;
-  border-radius: 4px;
-  outline: none;
-  border: none;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.MAIN_1};
-  }
 `

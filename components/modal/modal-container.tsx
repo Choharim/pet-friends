@@ -5,16 +5,16 @@ import { uiActions } from 'store/ui/ui.slice'
 import { ModalName } from 'store/ui/ui.type'
 
 import SignUpSuccess from './signup-success'
-import ReconfirmAccountWithdrawal from './reconfirm-account-with-drawal'
+import ReconfirmSignout from './reconfirm-signout'
 
 export type ModalProps = {
-  onClick: () => void
+  onClose: () => void
 }
 
-const MODALS: { [key in ModalName]: ({ onClick }: ModalProps) => JSX.Element } =
+const MODALS: { [key in ModalName]: ({ onClose }: ModalProps) => JSX.Element } =
   {
     SignUpSuccess,
-    ReconfirmAccountWithdrawal,
+    ReconfirmSignout,
   }
 
 const ModalContainer = () => {
@@ -30,9 +30,7 @@ const ModalContainer = () => {
           return (
             <OpenedModals
               key={`modal-${modal}`}
-              onClick={() =>
-                dispatch(uiActions.showModal({ modalName: modal }))
-              }
+              onClose={() => dispatch(uiActions.closeModal(modal))}
             />
           )
         })}

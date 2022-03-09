@@ -60,7 +60,9 @@ const SignUp = () => {
           <Password />
           <NickName />
           <Agreement />
-          <Button onClick={goToSignUp}>회원가입하기</Button>
+          <Button themeColor="MAIN_5" onClick={goToSignUp}>
+            회원가입하기
+          </Button>
         </SignUpForm>
       </Wrapper>
     </Layout>

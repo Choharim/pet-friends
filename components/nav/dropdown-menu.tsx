@@ -105,7 +105,7 @@ const DropdownHeaderWrapper = styled.div<{ open: boolean }>`
     open
       ? css`
           ${ProfileImg} {
-            border: 2px solid ${theme.colors.MAIN_1};
+            border: 2px solid ${theme.colors.MAIN_6};
           }
         `
       : css`
@@ -127,7 +127,7 @@ const ProfileImg = styled.img`
   border: 2px solid transparent;
 
   &:hover {
-    border: 2px solid ${({ theme }) => theme.colors.MAIN_1};
+    border: 2px solid ${({ theme }) => theme.colors.MAIN_6};
   }
 `
 const DropdownArrowIcon = styled.img`

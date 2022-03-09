@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import Button from 'components/button/button'
 import {
   deviceSizes,
   ICON_CDN_URL,
@@ -34,10 +35,13 @@ const Navigation = () => {
         />
         <LogoText>pet friends</LogoText>
       </Logo>
+
       {isLogin ? (
         <DropdownMemu />
       ) : (
-        <LoginButton onClick={goToLogin}>로그인</LoginButton>
+        <LoginButton themeColor="WHITE" fitContents onClick={goToLogin}>
+          로그인
+        </LoginButton>
       )}
     </NavBox>
   )
@@ -73,7 +77,7 @@ const LogoText = styled.span`
   margin-left: 15px;
 
   ${({ theme }) => theme.fonts.HEADER_2};
-  color: ${({ theme }) => theme.colors.MAIN_1};
+  color: ${({ theme }) => theme.colors.MAIN_6};
   cursor: pointer;
 `
 
@@ -82,14 +86,7 @@ const LogoImg = styled.img`
   height: 32px;
 `
 
-const LoginButton = styled.span`
-  ${({ theme }) => theme.fonts.SUB_TITLE_4};
-  color: ${({ theme }) => theme.colors.MAIN_2};
+const LoginButton = styled(Button)`
+  color: ${({ theme }) => theme.colors.MAIN_5};
   padding: 7px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.GREY_1};
-  }
 `

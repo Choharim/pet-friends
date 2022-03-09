@@ -103,7 +103,7 @@ export const InputBox = styled.div<{ warning: boolean }>`
       : css`
           border: 1px solid ${theme.colors.GREY_5};
           &:focus-within {
-            border: 1px solid ${theme.colors.MAIN_1};
+            border: 1px solid ${theme.colors.MAIN_6};
             box-shadow: 0 0 0 3px rgb(227 183 160 / 45%);
           }
         `}

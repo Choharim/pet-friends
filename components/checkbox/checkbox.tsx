@@ -54,7 +54,7 @@ const CheckboxIcon = styled.span<{ checked: boolean; warning: boolean }>`
   ${({ theme, checked }) =>
     checked
       ? css`
-          background-color: ${theme.colors.MAIN_1};
+          background-color: ${theme.colors.MAIN_6};
           > svg {
             color: ${theme.colors.WHITE};
           }

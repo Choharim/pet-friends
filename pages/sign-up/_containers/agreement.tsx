@@ -121,7 +121,7 @@ const CheckboxDesc = styled.span<{ all?: boolean }>`
 `
 const RequiredText = styled.span<{ required: boolean }>`
   color: ${({ theme, required }) =>
-    required ? theme.colors.MAIN_1 : theme.colors.GREY_5};
+    required ? theme.colors.MAIN_6 : theme.colors.GREY_5};
   ${({ theme }) => theme.fonts.BODY_5};
   margin-left: 5px;
 `

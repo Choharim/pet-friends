@@ -33,7 +33,7 @@ const Navigation = () => {
     const targetedMenu = firstActiveMenu.current
     setActiveMenuWidth(targetedMenu.offsetWidth)
     setActiveMenuLeft(targetedMenu.offsetLeft)
-  }, [firstActiveMenu])
+  }, [firstActiveMenu, router.asPath])
 
   const clickMenu = (e: React.MouseEvent<HTMLLIElement>) => {
     if (!e.currentTarget) return
@@ -49,9 +49,9 @@ const Navigation = () => {
       <NavContainer>
         {Tab.map((menu) => (
           <MenuWrapper
-            ref={menu.url === router.pathname ? firstActiveMenu : null}
+            ref={menu.url === router.asPath ? firstActiveMenu : null}
             key={`${menu.name}_in_myPage`}
-            active={router.pathname === menu.url}
+            active={router.asPath === menu.url}
             onClick={clickMenu}
           >
             <Link href={menu.url}>
@@ -85,7 +85,7 @@ const MenuWrapper = styled.li<{ active: boolean }>`
   height: 100%;
   ${({ theme }) => theme.fonts.SUB_TITLE_4};
   color: ${({ theme, active }) =>
-    active ? theme.colors.MAIN_1 : theme.colors.BLACK_5};
+    active ? theme.colors.MAIN_6 : theme.colors.BLACK_5};
 
   &:not(:last-child) {
     margin-right: 10px;
@@ -103,6 +103,6 @@ const Bar = styled.div<{ width: number; left: number }>`
   bottom: 0;
   height: 4px;
   width: ${({ width }) => width}px;
-  background-color: ${({ theme }) => theme.colors.MAIN_1};
+  background-color: ${({ theme }) => theme.colors.MAIN_6};
   transition: 0.2s;
 `

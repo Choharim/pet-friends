@@ -10,6 +10,7 @@ const initialState: AuthState = {
     login: asyncState.initial(),
     persistUser: asyncState.initial(),
     logout: asyncState.initial(),
+    signout: asyncState.initial(),
   },
   user: initializeUser(),
 
@@ -123,6 +124,24 @@ const auth = createSlice({
     },
     logoutFail: (state, { payload }: PayloadAction<AxiosError>) => {
       state.async.logout = asyncState.error(payload)
+    },
+
+    /**
+     * @function async/signOut
+     */
+    signoutStart: (state) => {
+      state.async.signout = asyncState.load()
+    },
+    signoutSuccess: (state) => {
+      state.async.signout = asyncState.success()
+      state.user = initializeUser()
+      state.isLogin = false
+    },
+    signoutFail: (
+      state,
+      { payload }: PayloadAction<AxiosError | FirebaseError>
+    ) => {
+      state.async.signout = asyncState.error(payload)
     },
   },
 })

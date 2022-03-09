@@ -1,6 +1,6 @@
 import { AsyncState } from 'store/utils/async'
 
-export type ModalName = 'SignUpSuccess' | 'ReconfirmAccountWithdrawal'
+export type ModalName = 'SignUpSuccess' | 'ReconfirmSignout'
 
 export enum ToastDescKey {
   changePassword,

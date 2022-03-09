@@ -73,6 +73,6 @@ const ShowPasswodButton = styled.span`
   right: 12px;
   padding: 3px;
   ${({ theme }) => theme.fonts.BODY_4};
-  color: ${({ theme }) => theme.colors.MAIN_1};
+  color: ${({ theme }) => theme.colors.MAIN_6};
   cursor: pointer;
 `

@@ -28,7 +28,7 @@ const ModalBox = styled.div`
   width: 350px;
   padding: 35px 25px;
   border-radius: 4px;
-  background-color: ${({ theme }) => theme.colors.MAIN_1};
+  background-color: ${({ theme }) => theme.colors.MAIN_6};
   overflow-y: auto;
 `
 

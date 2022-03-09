@@ -16,6 +16,7 @@ import {
   call,
   fork,
   put,
+  race,
   SagaReturnType,
   select,
   take,
@@ -40,7 +41,7 @@ function* LogoutByFirebase() {
  */
 function* setUserDataInDB(user: User) {
   try {
-    yield axios.post(`http://localhost:5000/users`, user)
+    yield axios.post('http://localhost:5000/users', user)
   } catch (error) {
     throw new Error((error as AxiosError).message)
   }
@@ -206,6 +207,36 @@ function* firebaseLogout() {
   }
 }
 
+function* deleteUserDataInDB(userId: string) {
+  try {
+    yield axios.delete(`http://localhost:5000/users/${userId}`)
+  } catch (error) {
+    throw new Error((error as AxiosError).message)
+  }
+}
+
+function* firebaseSignout() {
+  try {
+    const user = getAuth().currentUser
+
+    if (!!user) {
+      yield call(deleteUserDataInDB, user.uid)
+      yield deleteUser(user)
+    }
+
+    yield call([localStorage, 'removeItem'], LOCALSTORAGE_USER_KEY)
+
+    yield put(authActions.signoutSuccess())
+  } catch (error) {
+    yield put(authActions.signoutFail(error as AxiosError | FirebaseError))
+
+    const user = getAuth().currentUser
+    if (!!user) {
+      yield deleteUser(user)
+    }
+  }
+}
+
 function* signUp() {
   yield takeLeading(authActions.signUpStart.type, firebaseSignUp)
 }
@@ -219,8 +250,12 @@ function* logout() {
   yield takeLeading(authActions.logoutStart.type, firebaseLogout)
 }
 
+function* signout() {
+  yield takeLeading(authActions.signoutStart.type, firebaseSignout)
+}
+
 function* authSaga() {
-  yield all([fork(signUp), fork(login), fork(logout)])
+  yield all([fork(signUp), fork(login), fork(logout), fork(signout)])
 }
 
 export default authSaga

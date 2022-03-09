@@ -1,5 +1,5 @@
-import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import Button from 'components/button/button'
 import React from 'react'
 import Modal from './modal'
 
@@ -18,8 +18,12 @@ const AlertDialog = ({
       <ModalBox>
         <Title>{title}</Title>
         <ButtonContainer>
-          <CancelButton onClick={onClickCancelButton}>취소</CancelButton>
-          <ConfirmButton onClick={onClickConfirmButton}>확인</ConfirmButton>
+          <CancelButton onClick={onClickCancelButton} themeColor="GREY_1">
+            취소
+          </CancelButton>
+          <ConfirmButton onClick={onClickConfirmButton} themeColor="MAIN_5">
+            확인
+          </ConfirmButton>
         </ButtonContainer>
       </ModalBox>
     </Modal>
@@ -45,38 +49,21 @@ const Title = styled.div`
   width: calc(100% - 40px);
   padding: 0px 20px;
   color: ${({ theme }) => theme.colors.BLACK_3};
-  ${({ theme }) => theme.fonts.SUB_TITLE_1};
+  ${({ theme }) => theme.fonts.SUB_TITLE_2};
 `
 
-const ButtonBase = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 45px;
-  cursor: pointer;
-`
 const ButtonContainer = styled.div`
   display: flex;
   width: 100%;
   ${({ theme }) => theme.fonts.SUB_TITLE_3};
-  color: ${({ theme }) => theme.colors.BLACK_3};
 `
 
-const CancelButton = styled.div`
-  ${ButtonBase};
+const CancelButton = styled(Button)`
+  height: 45px;
   border-radius: 0 0 0 4px;
-  background-color: ${({ theme }) => theme.colors.GREY_1};
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.GREY_2};
-  }
 `
 
-const ConfirmButton = styled.div`
-  ${ButtonBase};
+const ConfirmButton = styled(Button)`
+  height: 45px;
   border-radius: 0 0 4px 0;
-  background-color: ${({ theme }) => theme.colors.MAIN_1};
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.MAIN_2};
-  }
 `
