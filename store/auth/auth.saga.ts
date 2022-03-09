@@ -1,5 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import { FirebaseErrorCode, LOCALSTORAGE_USER_KEY } from 'constants/auth'
+import {
+  ErrorMessages,
+  FirebaseErrorCode,
+  LOCALSTORAGE_USER_KEY,
+} from 'constants/auth'
 import { pageNames } from 'constants/common'
 import { FirebaseError } from 'firebase/app'
 import {
@@ -9,6 +13,8 @@ import {
   signInWithEmailAndPassword,
   UserCredential,
   signOut,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from 'firebase/auth'
 import Router from 'next/router'
 import {
@@ -16,7 +22,6 @@ import {
   call,
   fork,
   put,
-  race,
   SagaReturnType,
   select,
   take,
@@ -110,6 +115,7 @@ function* firebaseSignUp() {
       )
     }
 
+    // user data 저장을 실패한 경우이므로 firebase 탈퇴를 해야함.
     const user = getAuth().currentUser
     if (!!user) {
       yield deleteUser(user)
@@ -120,10 +126,10 @@ function* firebaseSignUp() {
 /**
  *@function login
  */
-function* getUserDataInDB(id: string) {
+function* getUserDataInDB(userId: string) {
   try {
     const res: AxiosResponse = yield axios.get(
-      `http://localhost:5000/users?id=${id}`
+      `http://localhost:5000/users?id=${userId}`
     )
 
     return res.data?.[0]
@@ -217,23 +223,35 @@ function* deleteUserDataInDB(userId: string) {
 
 function* firebaseSignout() {
   try {
-    const user = getAuth().currentUser
+    const userId: string = yield call(
+      [localStorage, 'getItem'],
+      LOCALSTORAGE_USER_KEY
+    )
 
-    if (!!user) {
-      yield call(deleteUserDataInDB, user.uid)
-      yield deleteUser(user)
+    if (!userId) {
+      throw new Error(ErrorMessages.loginIsRequired)
     }
+    const userData: User = yield call(getUserDataInDB, userId)
+    /**
+     * 계정 삭제 , 기본 이메일 주소 설정 및 비밀번호 변경 과 같은 일부 보안에 민감한 작업을 수행 하려면
+     * 사용자를 다시 인증해야함.
+     */
+    const auth = getAuth()
+    const res: UserCredential = yield signInWithEmailAndPassword(
+      auth,
+      userData.email,
+      userData.password
+    )
 
+    yield deleteUser(res.user)
+    yield call(deleteUserDataInDB, res.user.uid)
     yield call([localStorage, 'removeItem'], LOCALSTORAGE_USER_KEY)
 
     yield put(authActions.signoutSuccess())
+    yield put(uiActions.closeModal('ReconfirmSignout'))
+    Router.push(pageNames.HOME)
   } catch (error) {
     yield put(authActions.signoutFail(error as AxiosError | FirebaseError))
-
-    const user = getAuth().currentUser
-    if (!!user) {
-      yield deleteUser(user)
-    }
   }
 }
 

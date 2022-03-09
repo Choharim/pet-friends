@@ -29,3 +29,8 @@ export const FirebaseErrorCode = {
   invalidPassword: 'auth/wrong-password', // 로그인시 오류
   notFoundUser: 'auth/user-not-found', // 로그인시 오류
 }
+
+export const ErrorMessages = {
+  notFoundUser: 'user-not-found',
+  loginIsRequired: 'login-is-required',
+}
