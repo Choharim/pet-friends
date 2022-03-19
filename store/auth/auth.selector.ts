@@ -3,23 +3,6 @@ import { RootState } from 'store/root.reducer'
 
 const selectAuth = (state: RootState) => state.auth
 
-const selectAsync = createSelector([selectAuth], (auth) => auth.async)
-
-export const selectLoginAsync = createSelector(
-  [selectAsync],
-  (async) => async.login
-)
-
-export const selectSignUpAsync = createSelector(
-  [selectAsync],
-  (async) => async.signUp
-)
-
-export const selectSignoutAsync = createSelector(
-  [selectAsync],
-  (async) => async.signout
-)
-
 export const selectUser = createSelector([selectAuth], (auth) => auth.user)
 
 export const selectSignUpData = createSelector([selectUser], (user) => ({
@@ -59,4 +42,29 @@ export const selectIsDuplicateNickName = createSelector(
 export const selectIsLogin = createSelector(
   [selectAuth],
   (auth) => auth.isLogin
+)
+
+/**
+ * @function async
+ */
+const selectAsync = createSelector([selectAuth], (auth) => auth.async)
+
+export const selectLoginAsync = createSelector(
+  [selectAsync],
+  (async) => async.login
+)
+
+export const selectSignUpAsync = createSelector(
+  [selectAsync],
+  (async) => async.signUp
+)
+
+export const selectSignoutAsync = createSelector(
+  [selectAsync],
+  (async) => async.signout
+)
+
+export const selectPersistUserAsync = createSelector(
+  [selectAsync],
+  (async) => async.persistUser
 )

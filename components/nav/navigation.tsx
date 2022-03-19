@@ -1,92 +1,99 @@
 import styled from '@emotion/styled'
-import Button from 'components/button/button'
-import {
-  deviceSizes,
-  ICON_CDN_URL,
-  NAVIGATION_HEIGHT,
-  pageNames,
-} from 'constants/common'
+import { MenuList } from 'components/nav/dropdown-menu'
+import { deviceSizes } from 'constants/common'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectIsLogin } from 'store/auth/auth.selector'
-import DropdownMemu from './dropdown-menu'
+import React, { useEffect, useRef, useState } from 'react'
 
-const Navigation = () => {
+type NavigationProps = {
+  menuList: MenuList[]
+}
+
+const Navigation = ({ menuList }: NavigationProps) => {
   const router = useRouter()
-  const isLogin = useSelector(selectIsLogin)
+  const [activeMenuWidth, setActiveMenuWidth] = useState(0)
+  const [activeMenuLeft, setActiveMenuLeft] = useState(0)
+  const firstActiveMenu = useRef<HTMLLIElement>(null)
 
-  const goToHome = () => {
-    router.push(pageNames.HOME)
-  }
+  useEffect(() => {
+    if (!firstActiveMenu.current) return
 
-  const goToLogin = () => {
-    router.push(pageNames.LOGIN)
+    const targetedMenu = firstActiveMenu.current
+    setActiveMenuWidth(targetedMenu.offsetWidth)
+    setActiveMenuLeft(targetedMenu.offsetLeft)
+  }, [firstActiveMenu, router.asPath])
+
+  const clickMenu = (e: React.MouseEvent<HTMLLIElement>) => {
+    if (!e.currentTarget) return
+
+    const targetedMenu = e.currentTarget
+
+    setActiveMenuWidth(targetedMenu.offsetWidth)
+    setActiveMenuLeft(targetedMenu.offsetLeft)
   }
 
   return (
     <NavBox>
-      <Navbars src={`${ICON_CDN_URL}/512/1828/1828859.png`} />
-
-      <Logo onClick={goToHome}>
-        <LogoImg
-          src={`${ICON_CDN_URL}/512/1279/1279250.png`}
-          alt="navigation-logo-img"
-        />
-        <LogoText>pet friends</LogoText>
-      </Logo>
-
-      {isLogin ? (
-        <DropdownMemu />
-      ) : (
-        <LoginButton themeColor="WHITE" fitContents onClick={goToLogin}>
-          로그인
-        </LoginButton>
-      )}
+      <NavContainer>
+        {menuList.map((menu) => (
+          <MenuWrapper
+            ref={menu?.url === router.asPath ? firstActiveMenu : null}
+            key={`${menu.name}_in_myPage`}
+            active={router.asPath === menu.url}
+            onClick={clickMenu}
+          >
+            <Link href={menu.url}>
+              <a>{menu.name}</a>
+            </Link>
+          </MenuWrapper>
+        ))}
+        <Bar width={activeMenuWidth} left={activeMenuLeft} />
+      </NavContainer>
     </NavBox>
   )
 }
 
-export default React.memo(Navigation)
+export default Navigation
 
 const NavBox = styled.nav`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: ${NAVIGATION_HEIGHT};
+  height: 50px;
   width: 100%;
   max-width: ${deviceSizes.MAX_SIZE}px;
   margin: 0 auto;
-  padding: 0 15px;
   background-color: ${({ theme }) => theme.colors.WHITE};
   border-bottom: 1px solid ${({ theme }) => theme.colors.GREY_2};
 `
-const Navbars = styled.img`
-  width: 24px;
-  height: 24px;
-  padding: 4px;
-  cursor: pointer;
-`
-const Logo = styled.div`
+
+const NavContainer = styled.ul`
+  position: relative;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 `
 
-const LogoText = styled.span`
-  font-family: 'Permanent Marker', cursive;
-  margin-left: 15px;
+const MenuWrapper = styled.li<{ active: boolean }>`
+  height: 100%;
+  ${({ theme }) => theme.fonts.SUB_TITLE_4};
+  color: ${({ theme, active }) =>
+    active ? theme.colors.MAIN_6 : theme.colors.BLACK_5};
 
-  ${({ theme }) => theme.fonts.HEADER_2};
-  color: ${({ theme }) => theme.colors.MAIN_6};
-  cursor: pointer;
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+  > a {
+    display: block;
+    padding: 0 10px;
+    line-height: 50px;
+  }
 `
 
-const LogoImg = styled.img`
-  width: 32px;
-  height: 32px;
-`
-
-const LoginButton = styled(Button)`
-  color: ${({ theme }) => theme.colors.MAIN_5};
-  padding: 7px 12px;
+const Bar = styled.div<{ width: number; left: number }>`
+  position: absolute;
+  left: ${({ left }) => left}px;
+  bottom: 0;
+  height: 4px;
+  width: ${({ width }) => width}px;
+  background-color: ${({ theme }) => theme.colors.MAIN_6};
+  transition: 0.2s;
 `

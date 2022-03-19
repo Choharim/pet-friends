@@ -1,0 +1,69 @@
+import { pageNames } from 'constants/common'
+import Router from 'next/router'
+import {
+  all,
+  fork,
+  put,
+  PutEffect,
+  race,
+  RaceEffect,
+  SagaReturnType,
+  select,
+  SelectEffect,
+  take,
+  takeLeading,
+} from 'redux-saga/effects'
+import { selectIsLogin, selectPersistUserAsync } from 'store/auth/auth.selector'
+import { authActions } from 'store/auth/auth.slice'
+import { uiActions } from 'store/ui/ui.slice'
+import { ToastDescKey } from 'store/ui/ui.type'
+import { systemActions } from './system.slice'
+
+function* loginGuard() {
+  const isLogin: SagaReturnType<typeof selectIsLogin> = yield select(
+    selectIsLogin
+  )
+
+  while (!isLogin) {
+    const {
+      loading: persistUserLoading,
+    }: SagaReturnType<typeof selectPersistUserAsync> = yield select(
+      selectPersistUserAsync
+    )
+
+    if (persistUserLoading) {
+      const [persistUserSuccess, persistUserFail]: [
+        persistUserSuccess: SagaReturnType<
+          typeof authActions.persistUserSuccess
+        >,
+        persistUserFail: SagaReturnType<typeof authActions.persistUserFail>
+      ] = yield race([
+        take(authActions.persistUserSuccess.type),
+        take(authActions.persistUserFail.type),
+      ])
+
+      if (persistUserSuccess) break
+    }
+
+    Router.push(pageNames.HOME)
+    yield put(
+      uiActions.showToast({
+        descKey: ToastDescKey.loginRequired,
+        key: new Date().getTime(),
+      })
+    )
+    break
+  }
+
+  yield put(systemActions.loginGuardSuccess())
+}
+
+function* guard() {
+  yield takeLeading(systemActions.loginGuardStart.type, loginGuard)
+}
+
+function* systemSaga() {
+  yield all([fork(guard)])
+}
+
+export default systemSaga

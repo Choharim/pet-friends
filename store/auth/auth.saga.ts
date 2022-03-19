@@ -13,8 +13,6 @@ import {
   signInWithEmailAndPassword,
   UserCredential,
   signOut,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
 } from 'firebase/auth'
 import Router from 'next/router'
 import {
@@ -195,6 +193,8 @@ function* persistUser() {
       const userData: User = yield call(getUserDataInDB, userId)
 
       yield put(authActions.persistUserSuccess(userData))
+    } else {
+      throw new Error(ErrorMessages.loginIsRequired)
     }
   } catch (error) {
     yield put(authActions.persistUserFail(error as AxiosError))
@@ -208,6 +208,7 @@ function* firebaseLogout() {
     yield call([localStorage, 'removeItem'], LOCALSTORAGE_USER_KEY)
 
     yield put(authActions.logoutSuccess())
+    Router.push(pageNames.HOME)
   } catch (error) {
     yield put(authActions.logoutFail(error as AxiosError))
   }

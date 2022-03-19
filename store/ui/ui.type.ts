@@ -9,6 +9,7 @@ export enum ToastDescKey {
   alreadyOrdered,
   addToCart,
   allRequired,
+  loginRequired,
 }
 
 export const TOAST_DESC_MAP = {
@@ -19,6 +20,7 @@ export const TOAST_DESC_MAP = {
   [ToastDescKey.alreadyOrdered]: '이미 주문된 상품입니다.',
   [ToastDescKey.addToCart]: '장바구니에 담았습니다.',
   [ToastDescKey.allRequired]: '필수항목을 모두 입력해주세요.',
+  [ToastDescKey.loginRequired]: '로그인을 해주세요.',
 } as const
 
 export type UIState = {

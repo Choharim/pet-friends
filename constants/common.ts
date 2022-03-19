@@ -12,8 +12,8 @@ export const pageNames = {
   LOGIN: '/login',
   FIND_PASSWORD: '/find-password',
   SIGN_UP: '/sign-up',
-  MY_PROFILE: '/my-page/profile',
-  MY_CLASS: '/my-page/class',
-  MY_SHOP: '/my-page/shop',
-  SETTINGS: '/my-page/settings',
+  CLASS: '/class',
+  SHOP: '/shop',
+  MY: '/my',
+  SETTINGS: '/settings',
 } as const

@@ -1,4 +1,6 @@
 import styled from '@emotion/styled'
+import Layout from 'components/layout/layout'
+import useLoginGuard from 'hooks/use-login-guard'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { uiActions } from 'store/ui/ui.slice'
@@ -6,18 +8,22 @@ import { uiActions } from 'store/ui/ui.slice'
 const Settings = () => {
   const dispatch = useDispatch()
 
+  useLoginGuard()
+
   //TODO: 설정 (비밀번호, 닉네임, 이용약관,프로필 사진, 전화번호,주소 )
   const goToSignOut = () => {
     dispatch(uiActions.showModal({ modalName: 'ReconfirmSignout' }))
   }
 
   return (
-    <SecttingSection>
-      <HeadWrapper>
-        <SectionTitle>회원정보 수정</SectionTitle>
-        <Signout onClick={goToSignOut}>탈퇴하기</Signout>
-      </HeadWrapper>
-    </SecttingSection>
+    <Layout title="설정">
+      <SecttingSection>
+        <HeadWrapper>
+          <SectionTitle>회원정보 수정</SectionTitle>
+          <Signout onClick={goToSignOut}>탈퇴하기</Signout>
+        </HeadWrapper>
+      </SecttingSection>
+    </Layout>
   )
 }
 
@@ -28,7 +34,7 @@ const SecttingSection = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 80px 30px;
+  padding: 30px 0;
 `
 
 const HeadWrapper = styled.div`

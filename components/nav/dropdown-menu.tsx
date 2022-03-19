@@ -14,16 +14,12 @@ export type MenuList = {
 
 const MenuList: MenuList[] = [
   {
-    name: '마이페이지',
-    url: pageNames.MY_PROFILE,
-  },
-  {
-    name: '내 수업',
-    url: pageNames.MY_CLASS,
-  },
-  {
     name: '내 주문',
-    url: pageNames.MY_SHOP,
+    url: pageNames.MY,
+  },
+  {
+    name: '설정',
+    url: pageNames.SETTINGS,
   },
 ]
 
@@ -72,18 +68,16 @@ const DropdownMemu = () => {
         src={profileUrl || `${ICON_CDN_URL}/512/847/847969.png`}
         alt="user-profile"
       />
-      <DropdownArrowIcon
-        src={`${ICON_CDN_URL}/512/892/892528.png`}
-        alt="user-profile_dropdown-arrow"
-      />
       <DropdownBox ref={dropdownBoxRef}>
         <MenuContainer>
           <UserNickName>{nickName} 주인님</UserNickName>
           {MenuList.map((menu) => (
             <MenuWrapper key={`${menu.name}_in_dropdown-menu`}>
-              <Link href={menu.url}>
-                <a>{menu.name}</a>
-              </Link>
+              {!!menu.url && (
+                <Link href={menu.url}>
+                  <a>{menu.name}</a>
+                </Link>
+              )}
             </MenuWrapper>
           ))}
         </MenuContainer>
@@ -100,6 +94,7 @@ const DropdownHeaderWrapper = styled.div<{ open: boolean }>`
   display: flex;
   align-items: center;
   cursor: pointer;
+  z-index: 100;
 
   ${({ open, theme }) =>
     open
@@ -111,10 +106,6 @@ const DropdownHeaderWrapper = styled.div<{ open: boolean }>`
       : css`
           ${DropdownBox} {
             display: none;
-          }
-
-          ${DropdownArrowIcon} {
-            transform: rotate(-90deg);
           }
         `}
 `
@@ -129,11 +120,6 @@ const ProfileImg = styled.img`
   &:hover {
     border: 2px solid ${({ theme }) => theme.colors.MAIN_6};
   }
-`
-const DropdownArrowIcon = styled.img`
-  width: 12px;
-  height: 12px;
-  transform: rotate(90deg);
 `
 
 const DropdownBox = styled.div`
