@@ -53,7 +53,7 @@ const Navigation = ({ menuList }: NavigationProps) => {
   )
 }
 
-export default Navigation
+export default React.memo(Navigation)
 
 const NavBox = styled.nav`
   height: 50px;

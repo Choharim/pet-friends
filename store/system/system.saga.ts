@@ -13,7 +13,7 @@ import {
   take,
   takeLeading,
 } from 'redux-saga/effects'
-import { selectIsLogin, selectPersistUserAsync } from 'store/auth/auth.selector'
+import { selectIsLogin } from 'store/auth/auth.selector'
 import { authActions } from 'store/auth/auth.slice'
 import { uiActions } from 'store/ui/ui.slice'
 import { ToastDescKey } from 'store/ui/ui.type'

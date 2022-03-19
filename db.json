@@ -59,6 +59,26 @@
         }
       ],
       "id": "JG5rYZ2FZdXCCLtu9dVdcqarjnv2"
+    },
+    {
+      "email": "test4@gmail.com",
+      "password": "gkfla8586",
+      "nickName": "test4",
+      "termsAgreements": [
+        {
+          "field": "terms-of-use",
+          "agree": true
+        },
+        {
+          "field": "collection-of-personal-information",
+          "agree": true
+        },
+        {
+          "field": "event-notification",
+          "agree": true
+        }
+      ],
+      "id": "qYxfErQmqkTYgVuXd6W6yTEu0G93"
     }
   ],
   "foods": [
@@ -86,7 +106,13 @@
       "name": "고구마퓨레",
       "price": 7000,
       "desc": "식이섬유가 풍부해 장 속 노폐물 제거 및 변비를 예방해 줍니다. 또한, 칼슘과 철분이 풍부해 성장, 발육에 도움이 됩니다.",
-      "ingredients": ["고구마", "락토프리우유", "계란", "아마씨오일", "유산균"],
+      "ingredients": [
+        "고구마",
+        "락토프리우유",
+        "계란",
+        "아마씨오일",
+        "유산균"
+      ],
       "difficulty_level": 3
     },
     {
@@ -114,7 +140,13 @@
       "name": "호박차",
       "price": 5000,
       "desc": "저칼로리 식품으로 단백질, 칼슘, 식이섬유가 풍부하고 콜레스테롤을 저하시켜주며 비타민이 많습니다.",
-      "ingredients": ["호박씨", "감자", "새송이 버섯", "대추", "단호박"],
+      "ingredients": [
+        "호박씨",
+        "감자",
+        "새송이 버섯",
+        "대추",
+        "단호박"
+      ],
       "difficulty_level": 2
     },
     {
@@ -124,7 +156,11 @@
       "name": "감자차",
       "price": 4000,
       "desc": "비타민과 식이섬유가 많고 피부미용, 노화방지, 눈건강에 도움을 줍니다.",
-      "ingredients": ["감자", "새송이 버섯", "대추"],
+      "ingredients": [
+        "감자",
+        "새송이 버섯",
+        "대추"
+      ],
       "difficulty_level": 2
     },
     {
@@ -134,7 +170,12 @@
       "name": "시금치차",
       "price": 5000,
       "desc": "식이섬유가 풍부하고 비타민D가 많이 함유되어 있어 장건강과 면역력에 좋습니다.",
-      "ingredients": ["시금치", "파프리카", "대추", "오이"],
+      "ingredients": [
+        "시금치",
+        "파프리카",
+        "대추",
+        "오이"
+      ],
       "difficulty_level": 1
     },
     {
@@ -144,7 +185,12 @@
       "name": "연어쿠키",
       "price": 3000,
       "desc": "칼륨과 식이섬유가 풍부하고 노폐물 배출과 변비해소 피모건강에 도움이 되고 혈중 콜레스테롤의 수치를 낮춰줍니다.",
-      "ingredients": ["연어", "당근", "브로콜리", "계란"],
+      "ingredients": [
+        "연어",
+        "당근",
+        "브로콜리",
+        "계란"
+      ],
       "difficulty_level": 5
     },
     {
@@ -154,7 +200,12 @@
       "name": "단호박쿠키",
       "price": 2000,
       "desc": "베타카로틴이 풍부하게 들어있어 면연력을 높이고 항산화작용, 피부미용, 노화방지, 눈건강에 좋습니다.",
-      "ingredients": ["딘호박", "당근", "브로콜리", "계란"],
+      "ingredients": [
+        "딘호박",
+        "당근",
+        "브로콜리",
+        "계란"
+      ],
       "difficulty_level": 1
     },
     {
@@ -164,7 +215,13 @@
       "name": "북어연어쿠키",
       "price": 3500,
       "desc": "필수 아미노산을 함유하고 있으며 단백질과 철분이 많아 성장 발육에 좋습니다.",
-      "ingredients": ["북어", "연어", "당근", "브로콜리", "계란"],
+      "ingredients": [
+        "북어",
+        "연어",
+        "당근",
+        "브로콜리",
+        "계란"
+      ],
       "difficulty_level": 4
     }
   ]

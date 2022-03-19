@@ -1,12 +1,14 @@
+import React, { useState } from 'react'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { Label } from 'components/input/input'
-import { TERMS_AGREEMENTS } from 'constants/auth'
-import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
+import { TERMS_AGREEMENTS } from 'constants/auth'
 import { selectTermsAgreements } from 'store/auth/auth.selector'
 import { authActions } from 'store/auth/auth.slice'
 import { TermsAgreement } from 'store/auth/auth.type'
+
+import { Label } from 'components/input/input'
 import Checkbox from 'components/checkbox/checkbox'
 
 const ALL_AGREE_CHECKBOX_ID = 'all-agreements'

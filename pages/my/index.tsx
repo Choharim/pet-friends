@@ -1,6 +1,8 @@
-import Layout from 'components/layout/layout'
-import useLoginGuard from 'hooks/use-login-guard'
 import React from 'react'
+
+import useLoginGuard from 'hooks/use-login-guard'
+
+import Layout from 'components/layout/layout'
 
 const MyPage = () => {
   useLoginGuard()

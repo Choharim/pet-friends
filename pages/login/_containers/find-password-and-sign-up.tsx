@@ -1,7 +1,8 @@
-import styled from '@emotion/styled'
-import { pageNames } from 'constants/common'
-import { useRouter } from 'next/router'
 import React from 'react'
+import styled from '@emotion/styled'
+import { useRouter } from 'next/router'
+
+import { pageNames } from 'constants/common'
 
 const FindPasswordAndSignUp = () => {
   const router = useRouter()
@@ -24,7 +25,7 @@ const FindPasswordAndSignUp = () => {
   )
 }
 
-export default FindPasswordAndSignUp
+export default React.memo(FindPasswordAndSignUp)
 
 const Wrapper = styled.div`
   display: flex;

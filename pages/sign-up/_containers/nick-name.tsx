@@ -1,12 +1,14 @@
 import React from 'react'
-import Input from 'components/input/input'
 import { useDispatch, useSelector } from 'react-redux'
+
 import {
   selectIsDuplicateNickName,
   selectNickName,
 } from 'store/auth/auth.selector'
 import { authActions } from 'store/auth/auth.slice'
 import { WarningText } from 'constants/auth'
+
+import Input from 'components/input/input'
 
 const MINIMUM_LENGTH = 2
 const MAXIMUM_LENGTH = 15

@@ -1,9 +1,11 @@
-import styled from '@emotion/styled'
-import Layout from 'components/layout/layout'
-import useLoginGuard from 'hooks/use-login-guard'
 import React from 'react'
+import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
+
+import useLoginGuard from 'hooks/use-login-guard'
 import { uiActions } from 'store/ui/ui.slice'
+
+import Layout from 'components/layout/layout'
 
 const Settings = () => {
   const dispatch = useDispatch()
