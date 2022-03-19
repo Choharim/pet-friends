@@ -17,4 +17,5 @@ export const pageNames = {
   MY: '/my',
   SETTINGS: '/settings',
   SUBSCRIPTION: '/subscription',
+  SEARCH: '/search',
 } as const

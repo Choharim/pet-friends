@@ -12,6 +12,7 @@ interface LayoutProps {
   title?: string
   children: ReactNode
   isFitScreen?: boolean
+  isNav?: boolean
 }
 
 const MenuData: MenuList[] = [
@@ -33,7 +34,12 @@ const MenuData: MenuList[] = [
   },
 ]
 
-const Layout = ({ children, title, isFitScreen = false }: LayoutProps) => {
+const Layout = ({
+  children,
+  title,
+  isFitScreen = false,
+  isNav = true,
+}: LayoutProps) => {
   return (
     <>
       <Head>
@@ -41,8 +47,12 @@ const Layout = ({ children, title, isFitScreen = false }: LayoutProps) => {
       </Head>
 
       <Body isFitScreen={isFitScreen}>
-        <SearchNav />
-        <Navigation menuList={MenuData} />
+        {isNav && (
+          <>
+            <SearchNav />
+            <Navigation menuList={MenuData} />
+          </>
+        )}
 
         <Frame>{children}</Frame>
 

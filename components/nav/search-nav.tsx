@@ -7,14 +7,11 @@ import { useSelector } from 'react-redux'
 import { selectIsLogin } from 'store/auth/auth.selector'
 import AddressSearch from './address-search'
 import DropdownMemu from './dropdown-menu'
+import KeywordSearch from './keyword-search'
 
 const SearchNav = () => {
   const router = useRouter()
   const isLogin = useSelector(selectIsLogin)
-
-  const goToHome = () => {
-    router.push(pageNames.HOME)
-  }
 
   const goToLogin = () => {
     router.push(pageNames.LOGIN)
@@ -23,13 +20,16 @@ const SearchNav = () => {
   return (
     <NavBox>
       <AddressSearch />
-      {isLogin ? (
-        <DropdownMemu />
-      ) : (
-        <LoginButton themeColor="WHITE" fitContents onClick={goToLogin}>
-          로그인
-        </LoginButton>
-      )}
+      <RightSectionWrapper>
+        <KeywordSearch />
+        {isLogin ? (
+          <DropdownMemu />
+        ) : (
+          <LoginButton themeColor="WHITE" fitContents onClick={goToLogin}>
+            로그인
+          </LoginButton>
+        )}
+      </RightSectionWrapper>
     </NavBox>
   )
 }
@@ -49,16 +49,11 @@ const NavBox = styled.nav`
   border-bottom: 1px solid ${({ theme }) => theme.colors.GREY_2};
 `
 
-const LogoText = styled.span`
-  font-family: 'Permanent Marker', cursive;
-  margin-left: 15px;
-
-  ${({ theme }) => theme.fonts.HEADER_2};
-  color: ${({ theme }) => theme.colors.MAIN_6};
-  cursor: pointer;
-`
-
 const LoginButton = styled(Button)`
   color: ${({ theme }) => theme.colors.MAIN_5};
   padding: 7px 12px;
+`
+const RightSectionWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `

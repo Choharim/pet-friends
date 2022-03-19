@@ -109,7 +109,7 @@ export const InputBox = styled.div<{ warning: boolean }>`
         `}
 `
 
-const RealInput = styled.input`
+export const RealInput = styled.input`
   width: 100%;
   border: none;
 
