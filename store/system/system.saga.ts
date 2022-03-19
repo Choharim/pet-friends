@@ -24,35 +24,24 @@ function* loginGuard() {
     selectIsLogin
   )
 
-  while (!isLogin) {
-    const {
-      loading: persistUserLoading,
-    }: SagaReturnType<typeof selectPersistUserAsync> = yield select(
-      selectPersistUserAsync
-    )
+  if (!isLogin) {
+    const [persistUserSuccess, persistUserFail]: [
+      persistUserSuccess: SagaReturnType<typeof authActions.persistUserSuccess>,
+      persistUserFail: SagaReturnType<typeof authActions.persistUserFail>
+    ] = yield race([
+      take(authActions.persistUserSuccess.type),
+      take(authActions.persistUserFail.type),
+    ])
 
-    if (persistUserLoading) {
-      const [persistUserSuccess, persistUserFail]: [
-        persistUserSuccess: SagaReturnType<
-          typeof authActions.persistUserSuccess
-        >,
-        persistUserFail: SagaReturnType<typeof authActions.persistUserFail>
-      ] = yield race([
-        take(authActions.persistUserSuccess.type),
-        take(authActions.persistUserFail.type),
-      ])
-
-      if (persistUserSuccess) break
+    if (persistUserFail) {
+      Router.push(pageNames.HOME)
+      yield put(
+        uiActions.showToast({
+          descKey: ToastDescKey.loginRequired,
+          key: new Date().getTime(),
+        })
+      )
     }
-
-    Router.push(pageNames.HOME)
-    yield put(
-      uiActions.showToast({
-        descKey: ToastDescKey.loginRequired,
-        key: new Date().getTime(),
-      })
-    )
-    break
   }
 
   yield put(systemActions.loginGuardSuccess())

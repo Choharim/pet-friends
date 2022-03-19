@@ -76,12 +76,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 390px;
-  padding: 60px 0 30px;
   margin: 0 auto;
 `
 
 const PageTitle = styled.h2`
-  ${({ theme }) => theme.fonts.HEADER_2};
+  ${({ theme }) => theme.fonts.HEADER_3};
   color: ${({ theme }) => theme.colors.BLACK_3};
   margin: 30px 0;
 `

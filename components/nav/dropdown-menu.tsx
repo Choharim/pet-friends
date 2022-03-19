@@ -14,7 +14,7 @@ export type MenuList = {
 
 const MenuList: MenuList[] = [
   {
-    name: '내 주문',
+    name: '장바구니',
     url: pageNames.MY,
   },
   {

@@ -11,7 +11,7 @@ import Frame from './frame'
 interface LayoutProps {
   title?: string
   children: ReactNode
-  isFullScreen?: boolean
+  isFitScreen?: boolean
 }
 
 const MenuData: MenuList[] = [
@@ -28,19 +28,19 @@ const MenuData: MenuList[] = [
     url: pageNames.SHOP,
   },
   {
-    name: '장바구니',
-    url: pageNames.MY,
+    name: '정기구독',
+    url: pageNames.SUBSCRIPTION,
   },
 ]
 
-const Layout = ({ children, title, isFullScreen = false }: LayoutProps) => {
+const Layout = ({ children, title, isFitScreen = false }: LayoutProps) => {
   return (
     <>
       <Head>
         <title>펫프렌즈{!!title && `-${title}`}</title>
       </Head>
 
-      <Body isFullScreen={isFullScreen}>
+      <Body isFitScreen={isFitScreen}>
         <SearchNav />
         <Navigation menuList={MenuData} />
 
@@ -54,17 +54,18 @@ const Layout = ({ children, title, isFullScreen = false }: LayoutProps) => {
 
 export default Layout
 
-const Body = styled.div<{ isFullScreen?: boolean }>`
+const Body = styled.div<{ isFitScreen?: boolean }>`
   display: flex;
   flex-direction: column;
 
-  ${({ isFullScreen }) =>
-    isFullScreen
+  ${({ isFitScreen }) =>
+    isFitScreen
       ? css`
-          min-height: 100%;
+          height: 100%;
         `
       : css`
-          height: 100%;
+          min-height: max-content;
+          height: 100vh;
         `}
   background-color: ${({ theme }) => theme.colors.GREY_4};
 `

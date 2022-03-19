@@ -45,7 +45,7 @@ const Login = () => {
   }
 
   return (
-    <Layout title="로그인" isFullScreen>
+    <Layout title="로그인" isFitScreen>
       <Wrapper>
         <LoginIcon
           onClick={goToHome}
@@ -74,19 +74,19 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 390px;
-  padding: 100px 0 30px;
   margin: 0 auto;
 `
 
 const PageTitle = styled.h2`
-  ${({ theme }) => theme.fonts.HEADER_2};
+  ${({ theme }) => theme.fonts.HEADER_3};
   color: ${({ theme }) => theme.colors.BLACK_3};
-  margin: 30px 0;
+  margin: 20px 0;
 `
 
 const LoginIcon = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
+  margin-top: 50px;
   cursor: pointer;
 `
 
