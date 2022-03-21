@@ -15,7 +15,7 @@ const GoBack = () => {
     <GoBackIcon
       onClick={goToBack}
       src={`${ICON_CDN_URL}/512/2223/2223627.png`}
-      alt="go-back-icon"
+      alt="go-back_icon"
     />
   )
 }

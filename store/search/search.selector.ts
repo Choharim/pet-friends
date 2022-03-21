@@ -7,3 +7,8 @@ export const selectSearchKeyword = createSelector(
   [selectSearch],
   (search) => search.searchKeyword
 )
+
+export const selectRecentKeywords = createSelector(
+  [selectSearch],
+  (search) => search.recentKeywords
+)

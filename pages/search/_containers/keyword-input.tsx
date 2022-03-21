@@ -1,16 +1,21 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { ICON_CDN_URL } from 'constants/common'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { selectSearchKeyword } from 'store/search/search.selector'
 import { searchActions } from 'store/search/search.slice'
+import { ICON_CDN_URL } from 'constants/common'
+
+const MAX_KEYWORD_LENGTH = 100
 
 const KeywordInput = () => {
   const dispatch = useDispatch()
   const searchKeyword = useSelector(selectSearchKeyword)
 
-  const handleSearchKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeSearchKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
+
+    if (value.length > MAX_KEYWORD_LENGTH) return
 
     dispatch(searchActions.setSearchKeyword(value))
   }
@@ -19,24 +24,29 @@ const KeywordInput = () => {
     dispatch(searchActions.setSearchKeyword(''))
   }
 
+  const enterKeyword = () => {
+    dispatch(searchActions.searchKeywordStart())
+  }
+
   return (
     <InputWrapper>
       <SearchIcon
+        onClick={enterKeyword}
         src={`${ICON_CDN_URL}/512/622/622669.png`}
-        alt="keyword-serarch-icon"
+        alt="keyword-serarch_icon"
       />
       <SearchInput
         type="text"
         value={searchKeyword}
         placeholder="상품명, 수업명, 재료로 검색하세요."
-        onChange={handleSearchKeyword}
+        onChange={changeSearchKeyword}
         autoFocus
       />
       {!!searchKeyword && (
         <ResetIcon
           onClick={resetKeyword}
           src={`${ICON_CDN_URL}/512/1828/1828747.png`}
-          alt="keyword-reset-icon"
+          alt="keyword-reset_icon"
         />
       )}
     </InputWrapper>
@@ -72,7 +82,7 @@ const SearchInput = styled.input`
   border: none;
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.GREY_8};
+    color: ${({ theme }) => theme.colors.GREY_7};
   }
 `
 
