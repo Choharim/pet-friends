@@ -25,21 +25,24 @@ const KeywordInput = () => {
   }
 
   const enterKeyword = () => {
-    dispatch(searchActions.searchKeywordStart())
+    dispatch(searchActions.searchKeywordStart({ searchKeyword }))
+  }
+
+  const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      enterKeyword()
+    }
   }
 
   return (
     <InputWrapper>
-      <SearchIcon
-        onClick={enterKeyword}
-        src={`${ICON_CDN_URL}/512/622/622669.png`}
-        alt="keyword-serarch_icon"
-      />
+      <SearchButton onClick={enterKeyword} />
       <SearchInput
-        type="text"
+        type="search"
         value={searchKeyword}
         placeholder="상품명, 수업명, 재료로 검색하세요."
         onChange={changeSearchKeyword}
+        onKeyPress={pressEnter}
         autoFocus
       />
       {!!searchKeyword && (
@@ -65,11 +68,12 @@ const InputWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.GREY_2};
 `
 
-const SearchIcon = styled.img`
-  width: 32px;
-  padding: 5px;
-  margin-right: 15px;
-  border-radius: 4px;
+const SearchButton = styled.button`
+  width: 24.5px;
+  height: 23px;
+  margin-right: 5px;
+  background: no-repeat center/80% url(${ICON_CDN_URL}/512/622/622669.png);
+  border: none;
   cursor: pointer;
 `
 const SearchInput = styled.input`
@@ -83,6 +87,25 @@ const SearchInput = styled.input`
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.GREY_7};
+  }
+
+  /* clears the ‘X’ from Internet Explorer */
+  &::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  &::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  /* clears the ‘X’ from Chrome */
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
   }
 `
 

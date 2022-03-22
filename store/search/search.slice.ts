@@ -19,7 +19,10 @@ const search = createSlice({
      * 검색 api
      * recentKeyword add
      */
-    searchKeywordStart: (state) => {
+    searchKeywordStart: (
+      state,
+      { payload }: PayloadAction<{ searchKeyword: string }>
+    ) => {
       // 상태 업데이트 없음
     },
     searchKeywordSuccess: (state) => {
@@ -28,14 +31,25 @@ const search = createSlice({
     searchKeywordFail: (state) => {
       // 상태 업데이트 없음
     },
-    addRecentKeyword: (state, { payload }: PayloadAction<RecentKeyword>) => {
-      state.recentKeywords = [...state.recentKeywords, payload]
-    },
 
-    deleteRecentKeyword: (state, { payload }: PayloadAction<number>) => {
+    addRecentKeyword: (state, { payload }: PayloadAction<RecentKeyword>) => {
+      //최근 검색어는 최대 5개까지 보관
+      if (state.recentKeywords.length >= 5) {
+        state.recentKeywords = state.recentKeywords.slice(1).concat(payload)
+      } else {
+        state.recentKeywords = [...state.recentKeywords, payload]
+      }
+    },
+    deleteRecentKeyword: (
+      state,
+      { payload: { keywordId } }: PayloadAction<{ keywordId: number }>
+    ) => {
       state.recentKeywords = state.recentKeywords.filter(
-        (recentKeyword) => recentKeyword?.id !== payload
+        (recentKeyword) => recentKeyword?.id !== keywordId
       )
+    },
+    clearRecentKeyword: (state) => {
+      state.recentKeywords = []
     },
 
     getRecentKeywordsInLocalStorage: () => {
