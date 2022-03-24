@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -11,6 +11,13 @@ const MAX_KEYWORD_LENGTH = 100
 const KeywordInput = () => {
   const dispatch = useDispatch()
   const searchKeyword = useSelector(selectSearchKeyword)
+  const ref = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus()
+    }
+  }, [searchKeyword])
 
   const changeSearchKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -38,12 +45,12 @@ const KeywordInput = () => {
     <InputWrapper>
       <SearchButton onClick={enterKeyword} />
       <SearchInput
+        ref={ref}
         type="search"
         value={searchKeyword}
         placeholder="상품명, 수업명, 재료로 검색하세요."
         onChange={changeSearchKeyword}
         onKeyPress={pressEnter}
-        autoFocus
       />
       {!!searchKeyword && (
         <ResetIcon

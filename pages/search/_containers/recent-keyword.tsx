@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ICON_CDN_URL } from 'constants/common'
 import { selectRecentKeywords } from 'store/search/search.selector'
 import { searchActions } from 'store/search/search.slice'
+import { dotFormat } from 'utils'
 
 const RecentKeyword = () => {
   const dispatch = useDispatch()
@@ -18,6 +19,15 @@ const RecentKeyword = () => {
     dispatch(searchActions.clearRecentKeyword())
   }
 
+  const searchRecentKeyword = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    const keyword = e.currentTarget.innerText
+
+    dispatch(searchActions.setSearchKeyword(keyword))
+    dispatch(searchActions.searchKeywordStart({ searchKeyword: keyword }))
+  }
+
   return (
     <>
       {!!recentKeywords.length && (
@@ -29,7 +39,10 @@ const RecentKeyword = () => {
           <RecentKeywordContainer>
             {recentKeywords.map((recentKeyword) => (
               <Wrapper key={`recent_keyword-${recentKeyword.id}`}>
-                <Keyword>{recentKeyword.keyword}</Keyword>
+                <Keyword onClick={searchRecentKeyword}>
+                  {recentKeyword.keyword}
+                </Keyword>
+                <SearchedDate>{dotFormat(recentKeyword.id)}</SearchedDate>
                 <DeleteKeyword
                   onClick={() => deleteKeyword(recentKeyword.id)}
                   src={`${ICON_CDN_URL}/512/7124/7124230.png`}
@@ -78,16 +91,36 @@ const RecentKeywordContainer = styled.div`
 `
 
 const Keyword = styled.span`
+  display: flex;
+  align-items: center;
   width: 100%;
+  height: 30px;
+
   ${({ theme }) => theme.fonts.BODY_2};
   color: ${({ theme }) => theme.colors.BLACK_3};
+  border-radius: 2px;
   cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.GREY_1};
+    color: ${({ theme }) => theme.colors.BLACK_5};
+  }
+`
+
+const SearchedDate = styled.span`
+  ${({ theme }) => theme.fonts.BODY_6};
+  color: ${({ theme }) => theme.colors.GREY_8};
+  margin-right: 10px;
 `
 
 const DeleteKeyword = styled.img`
-  width: 16px;
+  width: 17px;
   padding: 3px;
   border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.GREY_3};
+  background-color: ${({ theme }) => theme.colors.GREY_2};
   cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.GREY_3};
+  }
 `

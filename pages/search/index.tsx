@@ -27,6 +27,10 @@ const Search = () => {
         </HeadWrapper>
         <RecentKeyword />
       </Wrapper>
+
+      {/* {
+        TODO: 검색 결과 
+      } */}
     </Layout>
   )
 }
