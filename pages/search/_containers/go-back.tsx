@@ -20,7 +20,7 @@ const GoBack = () => {
   )
 }
 
-export default GoBack
+export default React.memo(GoBack)
 
 const GoBackIcon = styled.img`
   width: 32px;

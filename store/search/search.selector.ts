@@ -12,3 +12,8 @@ export const selectRecentKeywords = createSelector(
   [selectSearch],
   (search) => search.recentKeywords
 )
+
+export const selectSimilarKeywords = createSelector(
+  [selectSearch],
+  (search) => search.similarKeywords
+)

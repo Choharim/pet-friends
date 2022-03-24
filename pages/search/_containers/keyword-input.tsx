@@ -1,16 +1,18 @@
 import React, { useEffect, useRef } from 'react'
 import styled from '@emotion/styled'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { selectSearchKeyword } from 'store/search/search.selector'
 import { searchActions } from 'store/search/search.slice'
 import { ICON_CDN_URL } from 'constants/common'
 
 const MAX_KEYWORD_LENGTH = 100
 
-const KeywordInput = () => {
+type KeywordInputProps = {
+  searchKeyword: string
+}
+
+const KeywordInput = ({ searchKeyword }: KeywordInputProps) => {
   const dispatch = useDispatch()
-  const searchKeyword = useSelector(selectSearchKeyword)
   const ref = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {

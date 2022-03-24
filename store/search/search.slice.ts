@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
+import { asyncState } from 'store/utils/async'
 import { RecentKeyword, SearchState } from './search.type'
 
 const initialState: SearchState = {
+  async: {
+    getSimilarKeywords: asyncState.initial(),
+  },
   searchKeyword: '',
   recentKeywords: [],
+  similarKeywords: [],
 }
 
 const search = createSlice({
@@ -30,6 +36,17 @@ const search = createSlice({
     },
     searchKeywordFail: (state) => {
       // 상태 업데이트 없음
+    },
+
+    getSimilarKeywordsSuccess: (
+      state,
+      { payload }: PayloadAction<string[]>
+    ) => {
+      state.async.getSimilarKeywords = asyncState.success()
+      state.similarKeywords = payload
+    },
+    getSimilarKeywordsFail: (state, { payload }: PayloadAction<AxiosError>) => {
+      state.async.getSimilarKeywords = asyncState.error(payload)
     },
 
     addRecentKeyword: (state, { payload }: PayloadAction<RecentKeyword>) => {

@@ -1,6 +1,8 @@
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { RECENT_KEYWORDS_KEY } from 'pages/search'
 import {
   all,
+  call,
   debounce,
   fork,
   put,
@@ -8,7 +10,8 @@ import {
   select,
   takeLeading,
 } from 'redux-saga/effects'
-import { selectRecentKeywords } from './search.selector'
+import { Food } from 'store/food/food.type'
+import { selectRecentKeywords, selectSearchKeyword } from './search.selector'
 import { searchActions } from './search.slice'
 import { RecentKeyword } from './search.type'
 
@@ -39,7 +42,10 @@ function* controlAddRecentKeyword({
 function* searchForKeyword({
   payload: { searchKeyword },
 }: ReturnType<typeof searchActions.searchKeywordStart>) {
-  //TODO: searchKeyword로 요리수업명이나, 상품명, 상품 설명에 포함되어있는 거 데이터 가져오기
+  //TODO: 해당 키워드 클릭시/검색시 결과값 보여주기
+  const res: AxiosResponse = yield axios.get(
+    `http://localhost:5000/foods?name=${searchKeyword}&desc=${searchKeyword}`
+  )
 }
 
 function* setKeywordInLocalStorage() {
@@ -63,8 +69,65 @@ function* getStoredKeywordInLocalStorage() {
   yield put(searchActions.setRecentKeywords(recentKeywords))
 }
 
-function* autoRecommendationKeyword() {
+function* getSimilarName(searchKeyword: string) {
+  try {
+    const res: AxiosResponse<Food[]> = yield axios.get(
+      `http://localhost:5000/foods?name_like=${searchKeyword}&_limit=10`
+    )
+
+    let names: string[] = []
+    if (!!res.data.length) {
+      names = res.data.map((data) => data.name)
+    }
+
+    return names
+  } catch (error) {
+    throw new Error((error as AxiosError).message)
+  }
+}
+
+function* getSimilarIngredients(searchKeyword: string) {
+  try {
+    const res: AxiosResponse<Food[]> = yield axios.get(
+      `http://localhost:5000/foods?ingredients_like=${searchKeyword}&_limit=10`
+    )
+
+    let ingredients: string[] = []
+    if (!!res.data.length) {
+      res.data.forEach((data) => {
+        ingredients = data.ingredients.filter((ingredient) =>
+          ingredient.includes(searchKeyword)
+        )
+      })
+    }
+
+    return ingredients
+  } catch (error) {
+    throw new Error((error as AxiosError).message)
+  }
+}
+
+function* getSimilarKeywords() {
   // searchKeyword로 요리수업명이나, 상품명 자동 완성
+  const searchKeyword: SagaReturnType<typeof selectSearchKeyword> =
+    yield select(selectSearchKeyword)
+
+  try {
+    const [names, ingredients]: [names: string[], ingredients: string[]] =
+      yield all([
+        call(getSimilarName, searchKeyword),
+        call(getSimilarIngredients, searchKeyword),
+      ])
+
+    const allFillterdData = [...names, ...ingredients]
+    const uniqueData = allFillterdData.filter((data, i) => {
+      return allFillterdData.indexOf(data) === i
+    })
+
+    yield put(searchActions.getSimilarKeywordsSuccess(uniqueData))
+  } catch (error) {
+    yield put(searchActions.getSimilarKeywordsFail(error as AxiosError))
+  }
 }
 
 function* storeKeyword() {
@@ -95,11 +158,7 @@ function* searchKeyword() {
     controlAddRecentKeyword
   )
 
-  yield debounce(
-    200,
-    searchActions.setSearchKeyword.type,
-    autoRecommendationKeyword
-  )
+  yield debounce(200, searchActions.setSearchKeyword.type, getSimilarKeywords)
 
   yield takeLeading(searchActions.searchKeywordStart.type, searchForKeyword)
 }
