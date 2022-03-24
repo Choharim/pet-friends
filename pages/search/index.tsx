@@ -19,7 +19,7 @@ const Search = () => {
 
   useEffect(() => {
     dispatch(searchActions.getRecentKeywordsInLocalStorage())
-  }, [])
+  }, [dispatch])
 
   return (
     <Layout title="search" isNav={false}>
