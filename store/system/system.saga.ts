@@ -4,12 +4,9 @@ import {
   all,
   fork,
   put,
-  PutEffect,
   race,
-  RaceEffect,
   SagaReturnType,
   select,
-  SelectEffect,
   take,
   takeLeading,
 } from 'redux-saga/effects'

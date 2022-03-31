@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import {
   ErrorMessages,
   FirebaseErrorCode,
@@ -15,6 +15,7 @@ import {
   signOut,
 } from 'firebase/auth'
 import Router from 'next/router'
+import AuthAPI from 'pages/api/auth/axios'
 import {
   all,
   call,
@@ -44,7 +45,7 @@ function* LogoutByFirebase() {
  */
 function* setUserDataInDB(user: User) {
   try {
-    yield axios.post('http://localhost:5000/users', user)
+    yield call(AuthAPI.postUser, user)
   } catch (error) {
     throw new Error((error as AxiosError).message)
   }
@@ -52,8 +53,10 @@ function* setUserDataInDB(user: User) {
 
 function* checkDuplicatedNickName(nickName: string) {
   try {
-    const res: AxiosResponse = yield axios.get(
-      `http://localhost:5000/users?nickName=${nickName}`
+    const res: AxiosResponse = yield call(
+      AuthAPI.getUserByField,
+      'nickName',
+      nickName
     )
 
     let isDuplicateNickName = false
@@ -126,9 +129,7 @@ function* firebaseSignUp() {
  */
 function* getUserDataInDB(userId: string) {
   try {
-    const res: AxiosResponse = yield axios.get(
-      `http://localhost:5000/users?id=${userId}`
-    )
+    const res: AxiosResponse = yield call(AuthAPI.getUserByField, 'id', userId)
 
     return res.data?.[0]
   } catch (error) {
@@ -216,7 +217,7 @@ function* firebaseLogout() {
 
 function* deleteUserDataInDB(userId: string) {
   try {
-    yield axios.delete(`http://localhost:5000/users/${userId}`)
+    yield call(AuthAPI.deleteUser, userId)
   } catch (error) {
     throw new Error((error as AxiosError).message)
   }

@@ -1,4 +1,5 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
+import FoodAPI from 'pages/api/food/axios'
 import { RECENT_KEYWORDS_KEY } from 'pages/search'
 import {
   all,
@@ -42,10 +43,25 @@ function* controlAddRecentKeyword({
 function* searchForKeyword({
   payload: { searchKeyword },
 }: ReturnType<typeof searchActions.searchKeywordStart>) {
-  //TODO: 해당 키워드 클릭시/검색시 결과값 보여주기
-  const res: AxiosResponse = yield axios.get(
-    `http://localhost:5000/foods?name=${searchKeyword}&desc=${searchKeyword}`
-  )
+  try {
+    //TODO: 해당 키워드 클릭시/검색시 결과값 보여주기
+    const [res1, res2]: AxiosResponse<Food[]>[] = yield all([
+      call(FoodAPI.getLike, {
+        field: 'name',
+        keyword: searchKeyword,
+      }),
+      call(FoodAPI.getLike, {
+        field: 'ingredients',
+        keyword: searchKeyword,
+      }),
+    ])
+
+    const searchResults = [...res1.data, ...res2.data]
+
+    yield put(searchActions.searchKeywordSuccess(searchResults))
+  } catch (error) {
+    yield put(searchActions.searchKeywordFail(error as AxiosError))
+  }
 }
 
 function* setKeywordInLocalStorage() {
@@ -71,9 +87,10 @@ function* getStoredKeywordInLocalStorage() {
 
 function* getSimilarName(searchKeyword: string) {
   try {
-    const res: AxiosResponse<Food[]> = yield axios.get(
-      `http://localhost:5000/foods?name_like=${searchKeyword}&_limit=10`
-    )
+    const res: AxiosResponse<Food[]> = yield call(FoodAPI.getLike, {
+      field: 'name',
+      keyword: searchKeyword,
+    })
 
     let names: string[] = []
     if (!!res.data.length) {
@@ -88,16 +105,19 @@ function* getSimilarName(searchKeyword: string) {
 
 function* getSimilarIngredients(searchKeyword: string) {
   try {
-    const res: AxiosResponse<Food[]> = yield axios.get(
-      `http://localhost:5000/foods?ingredients_like=${searchKeyword}&_limit=10`
-    )
+    const res: AxiosResponse<Food[]> = yield call(FoodAPI.getLike, {
+      field: 'ingredients',
+      keyword: searchKeyword,
+    })
 
     let ingredients: string[] = []
     if (!!res.data.length) {
       res.data.forEach((data) => {
-        ingredients = data.ingredients.filter((ingredient) =>
+        const similarIngredient = data.ingredients.filter((ingredient) =>
           ingredient.includes(searchKeyword)
         )
+
+        ingredients = [...ingredients, ...similarIngredient]
       })
     }
 
@@ -120,11 +140,13 @@ function* getSimilarKeywords() {
       ])
 
     const allFillterdData = [...names, ...ingredients]
-    const uniqueData = allFillterdData.filter((data, i) => {
-      return allFillterdData.indexOf(data) === i
-    })
+    const uniqueDataUpTo7 = allFillterdData
+      .filter((data, i) => {
+        return allFillterdData.indexOf(data) === i
+      })
+      .slice(0, 7)
 
-    yield put(searchActions.getSimilarKeywordsSuccess(uniqueData))
+    yield put(searchActions.getSimilarKeywordsSuccess(uniqueDataUpTo7))
   } catch (error) {
     yield put(searchActions.getSimilarKeywordsFail(error as AxiosError))
   }

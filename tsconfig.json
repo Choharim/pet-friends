@@ -16,6 +16,6 @@
     "incremental": true,
     "baseUrl": "."
   },
-  "include": ["src", "next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/foods"],
+  "include": ["src", "next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/food"],
   "exclude": ["node_modules"]
 }
