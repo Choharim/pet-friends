@@ -8,7 +8,7 @@ const Frame: React.FC = ({ children }) => {
 
 export default Frame
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   width: 100%;
   max-width: ${deviceSizes.MAX_SIZE}px;
   height: 100%;

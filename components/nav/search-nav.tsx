@@ -18,7 +18,7 @@ const SearchNav = () => {
   }
 
   return (
-    <NavBox>
+    <MainHeader>
       <AddressSearch />
       <RightSectionWrapper>
         <KeywordSearch />
@@ -30,22 +30,18 @@ const SearchNav = () => {
           </LoginButton>
         )}
       </RightSectionWrapper>
-    </NavBox>
+    </MainHeader>
   )
 }
 
 export default React.memo(SearchNav)
 
-const NavBox = styled.nav`
+const MainHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: ${NAVIGATION_HEIGHT};
-  width: 100%;
-  max-width: ${deviceSizes.MAX_SIZE}px;
-  margin: 0 auto;
   padding: 0 15px;
-  background-color: ${({ theme }) => theme.colors.WHITE};
   border-bottom: 1px solid ${({ theme }) => theme.colors.GREY_2};
 `
 

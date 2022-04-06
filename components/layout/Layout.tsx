@@ -1,9 +1,8 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { MenuList } from 'components/nav/dropdown-menu'
 import SearchNav from 'components/nav/search-nav'
 import Navigation from 'components/nav/navigation'
-import { pageNames } from 'constants/common'
+import { deviceSizes } from 'constants/common'
 import Head from 'next/head'
 import { ReactNode } from 'react'
 import Frame from './frame'
@@ -14,25 +13,6 @@ interface LayoutProps {
   isFitScreen?: boolean
   isNav?: boolean
 }
-
-const MenuData: MenuList[] = [
-  {
-    name: '홈',
-    url: pageNames.HOME,
-  },
-  {
-    name: '요리수업',
-    url: pageNames.CLASS,
-  },
-  {
-    name: '상품',
-    url: pageNames.SHOP,
-  },
-  {
-    name: '정기구독',
-    url: pageNames.SUBSCRIPTION,
-  },
-]
 
 const Layout = ({
   children,
@@ -46,25 +26,25 @@ const Layout = ({
         <title>펫프렌즈{!!title && `-${title}`}</title>
       </Head>
 
-      <Body isFitScreen={isFitScreen}>
+      <LayoutContainer isFitScreen={isFitScreen}>
         {isNav && (
-          <>
+          <Header>
             <SearchNav />
-            <Navigation menuList={MenuData} />
-          </>
+            <Navigation />
+          </Header>
         )}
 
         <Frame>{children}</Frame>
 
         {/* TODO: bottomNav 만들기 */}
-      </Body>
+      </LayoutContainer>
     </>
   )
 }
 
 export default Layout
 
-const Body = styled.div<{ isFitScreen?: boolean }>`
+const LayoutContainer = styled.div<{ isFitScreen?: boolean }>`
   display: flex;
   flex-direction: column;
 
@@ -78,4 +58,13 @@ const Body = styled.div<{ isFitScreen?: boolean }>`
           height: 100vh;
         `}
   background-color: ${({ theme }) => theme.colors.GREY_4};
+`
+
+const Header = styled.header`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: ${deviceSizes.MAX_SIZE}px;
+  margin: 0 auto;
+  background-color: ${({ theme }) => theme.colors.WHITE};
 `

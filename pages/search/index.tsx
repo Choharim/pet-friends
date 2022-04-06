@@ -10,6 +10,7 @@ import GoBack from './_containers/go-back'
 import KeywordInput from './_containers/keyword-input'
 import RecentKeyword from './_containers/recent-keyword'
 import SimilarKeyword from './_containers/similar-keyword'
+import FoodResults from './_containers/food-results'
 
 export const RECENT_KEYWORDS_KEY = 'pet-friends_history'
 
@@ -29,11 +30,8 @@ const Search = () => {
           <KeywordInput searchKeyword={searchKeyword} />
         </HeadWrapper>
         {!!searchKeyword ? <SimilarKeyword /> : <RecentKeyword />}
+        <FoodResults />
       </Wrapper>
-
-      {/* {
-        TODO: 검색 결과 
-      } */}
     </Layout>
   )
 }

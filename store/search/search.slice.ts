@@ -33,7 +33,7 @@ const search = createSlice({
       { payload }: PayloadAction<{ searchKeyword: string }>
     ) => {
       state.async.searchKeyword = asyncState.load()
-      // 상태 업데이트 없음
+      state.similarKeywords = []
     },
     searchKeywordSuccess: (state, { payload }: PayloadAction<Food[]>) => {
       state.async.searchKeyword = asyncState.success()
@@ -41,7 +41,6 @@ const search = createSlice({
     },
     searchKeywordFail: (state, { payload }: PayloadAction<AxiosError>) => {
       state.async.searchKeyword = asyncState.error(payload)
-      // 상태 업데이트 없음
     },
 
     getSimilarKeywordsSuccess: (

@@ -7,7 +7,8 @@ export const reset = css`
     padding: 0;
     margin: 0;
     letter-spacing: -0.4px;
-    font-family: 'Nanum Gothic', sans-serif;
+    font-family: KHDS-Bold, system-ui, AppleSDGothicNeo-Regular, 맑은 고딕,
+      Malgun Gothic, 돋움, dotum, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: auto;
   }

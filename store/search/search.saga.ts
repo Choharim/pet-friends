@@ -180,7 +180,7 @@ function* searchKeyword() {
     controlAddRecentKeyword
   )
 
-  yield debounce(200, searchActions.setSearchKeyword.type, getSimilarKeywords)
+  yield debounce(500, searchActions.setSearchKeyword.type, getSimilarKeywords)
 
   yield takeLeading(searchActions.searchKeywordStart.type, searchForKeyword)
 }

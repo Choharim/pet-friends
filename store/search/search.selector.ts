@@ -17,3 +17,13 @@ export const selectSimilarKeywords = createSelector(
   [selectSearch],
   (search) => search.similarKeywords
 )
+
+export const selectFoodResults = createSelector(
+  [selectSearch],
+  (search) => search.foodResults
+)
+
+export const selectAsyncSearchKeyword = createSelector(
+  [selectSearch],
+  (search) => search.async.searchKeyword
+)
