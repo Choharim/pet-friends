@@ -27,7 +27,7 @@ const Search = () => {
         searchActions.getSearchKeywordStart(router.query.keyword as string)
       )
     }
-  }, [router.query])
+  }, [dispatch, router.query])
 
   useEffect(() => {
     dispatch(searchActions.getRecentKeywordsInLocalStorage())
@@ -42,7 +42,7 @@ const Search = () => {
       dispatch(searchActions.clearSearchResults())
       dispatch(searchActions.clearSimilarKeywords())
     }
-  }, [searchKeyword])
+  }, [dispatch, searchKeyword])
 
   const goToBack = () => {
     router.back()
