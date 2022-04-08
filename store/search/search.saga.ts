@@ -16,9 +16,7 @@ import { selectRecentKeywords, selectSearchKeyword } from './search.selector'
 import { searchActions } from './search.slice'
 import { RecentKeyword } from './search.type'
 
-function* controlAddRecentKeyword({
-  payload: { searchKeyword },
-}: ReturnType<typeof searchActions.searchKeywordStart>) {
+function* controlAddRecentKeyword(searchKeyword: string) {
   const recentKeywords: SagaReturnType<typeof selectRecentKeywords> =
     yield select(selectRecentKeywords)
 
@@ -40,11 +38,12 @@ function* controlAddRecentKeyword({
   yield put(searchActions.addRecentKeyword(keyword))
 }
 
-function* searchForKeyword({
-  payload: { searchKeyword },
-}: ReturnType<typeof searchActions.searchKeywordStart>) {
+function* getSearchKeywordData({
+  payload: searchKeyword,
+}: ReturnType<typeof searchActions.getSearchKeywordStart>) {
   try {
-    //TODO: 해당 키워드 클릭시/검색시 결과값 보여주기
+    yield fork(controlAddRecentKeyword, searchKeyword)
+
     const [res1, res2]: AxiosResponse<Food[]>[] = yield all([
       call(FoodAPI.getLike, {
         field: 'name',
@@ -58,9 +57,9 @@ function* searchForKeyword({
 
     const searchResults = [...res1.data, ...res2.data]
 
-    yield put(searchActions.searchKeywordSuccess(searchResults))
+    yield put(searchActions.getSearchKeywordSuccess(searchResults))
   } catch (error) {
-    yield put(searchActions.searchKeywordFail(error as AxiosError))
+    yield put(searchActions.getSearchKeywordFail(error as AxiosError))
   }
 }
 
@@ -128,9 +127,16 @@ function* getSimilarIngredients(searchKeyword: string) {
 }
 
 function* getSimilarKeywords() {
-  // searchKeyword로 요리수업명이나, 상품명 자동 완성
+  /**
+   * searchKeyword로 요리수업명이나, 상품명 자동 완성
+   * 최대 10개까지 보여줌
+   */
   const searchKeyword: SagaReturnType<typeof selectSearchKeyword> =
     yield select(selectSearchKeyword)
+
+  if (!!searchKeyword) {
+    yield put(searchActions.clearSearchResults())
+  }
 
   try {
     const [names, ingredients]: [names: string[], ingredients: string[]] =
@@ -140,13 +146,15 @@ function* getSimilarKeywords() {
       ])
 
     const allFillterdData = [...names, ...ingredients]
-    const uniqueDataUpTo7 = allFillterdData
+    const uniqueDataUpToTen = allFillterdData
       .filter((data, i) => {
         return allFillterdData.indexOf(data) === i
       })
-      .slice(0, 7)
+      .slice(0, 10)
 
-    yield put(searchActions.getSimilarKeywordsSuccess(uniqueDataUpTo7))
+    if (!searchKeyword) return
+
+    yield put(searchActions.getSimilarKeywordsSuccess(uniqueDataUpToTen))
   } catch (error) {
     yield put(searchActions.getSimilarKeywordsFail(error as AxiosError))
   }
@@ -175,14 +183,11 @@ function* getStoredKeyword() {
 }
 
 function* searchKeyword() {
+  yield debounce(100, searchActions.setSearchKeyword.type, getSimilarKeywords)
   yield takeLeading(
-    searchActions.searchKeywordStart.type,
-    controlAddRecentKeyword
+    searchActions.getSearchKeywordStart.type,
+    getSearchKeywordData
   )
-
-  yield debounce(500, searchActions.setSearchKeyword.type, getSimilarKeywords)
-
-  yield takeLeading(searchActions.searchKeywordStart.type, searchForKeyword)
 }
 
 function* searchSaga() {

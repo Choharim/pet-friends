@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
-import { useRouter } from 'next/router'
 
 import { searchActions } from 'store/search/search.slice'
 import { ICON_CDN_URL, pageNames } from 'constants/common'
+import { useRouter } from 'next/router'
 
 const MAX_KEYWORD_LENGTH = 100
 
@@ -18,10 +18,18 @@ const KeywordInput = ({ searchKeyword }: KeywordInputProps) => {
   const ref = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    if (ref.current) {
+    focusInput(true)
+  }, [])
+
+  const focusInput = (toggle: boolean) => {
+    if (!ref.current) return
+
+    if (toggle) {
       ref.current.focus()
+    } else {
+      ref.current.blur()
     }
-  }, [searchKeyword])
+  }
 
   const changeSearchKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -33,11 +41,13 @@ const KeywordInput = ({ searchKeyword }: KeywordInputProps) => {
 
   const resetKeyword = () => {
     dispatch(searchActions.setSearchKeyword(''))
+    focusInput(true)
   }
 
   const enterKeyword = () => {
-    router.push(`${pageNames.SEARCH}?query=${searchKeyword}`)
-    dispatch(searchActions.searchKeywordStart({ searchKeyword }))
+    router.push(`${pageNames.SEARCH}?keyword=${searchKeyword}`)
+    focusInput(false)
+    dispatch(searchActions.clearSimilarKeywords())
   }
 
   const pressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {

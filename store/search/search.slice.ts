@@ -26,21 +26,25 @@ const search = createSlice({
     /**
      * @function trigger
      * 검색 api
-     * recentKeyword add
      */
-    searchKeywordStart: (
-      state,
-      { payload }: PayloadAction<{ searchKeyword: string }>
-    ) => {
+    getSearchKeywordStart: (state, { payload }: PayloadAction<string>) => {
       state.async.searchKeyword = asyncState.load()
-      state.similarKeywords = []
+      state.searchKeyword = payload
     },
-    searchKeywordSuccess: (state, { payload }: PayloadAction<Food[]>) => {
+    getSearchKeywordSuccess: (state, { payload }: PayloadAction<Food[]>) => {
       state.async.searchKeyword = asyncState.success()
       state.foodResults = payload
     },
-    searchKeywordFail: (state, { payload }: PayloadAction<AxiosError>) => {
+    getSearchKeywordFail: (state, { payload }: PayloadAction<AxiosError>) => {
       state.async.searchKeyword = asyncState.error(payload)
+    },
+
+    /**
+     * 검색 결과 초기화
+     */
+    clearSearchResults: (state) => {
+      state.async.searchKeyword = asyncState.initial()
+      state.foodResults = []
     },
 
     getSimilarKeywordsSuccess: (
@@ -52,6 +56,10 @@ const search = createSlice({
     },
     getSimilarKeywordsFail: (state, { payload }: PayloadAction<AxiosError>) => {
       state.async.getSimilarKeywords = asyncState.error(payload)
+    },
+    clearSimilarKeywords: (state) => {
+      state.async.getSimilarKeywords = asyncState.initial()
+      state.similarKeywords = []
     },
 
     addRecentKeyword: (state, { payload }: PayloadAction<RecentKeyword>) => {
@@ -79,6 +87,12 @@ const search = createSlice({
     },
     setRecentKeywords: (state, { payload }: PayloadAction<RecentKeyword[]>) => {
       state.recentKeywords = payload
+    },
+
+    clearSearch: (state) => {
+      state.searchKeyword = ''
+      state.similarKeywords = []
+      state.foodResults = []
     },
   },
 })

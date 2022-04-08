@@ -7,6 +7,8 @@ import {
   selectFoodResults,
 } from 'store/search/search.selector'
 
+//TODO: 상품/요리 json 데이터 생성, 타입 지정, 상품/요리에 검색 결과
+
 const FoodResults = () => {
   const { loading, data, error } = useSelector(selectAsyncSearchKeyword)
   const foodResults = useSelector(selectFoodResults)

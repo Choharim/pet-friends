@@ -22,8 +22,27 @@ const Search = () => {
   const searchKeyword = useSelector(selectSearchKeyword)
 
   useEffect(() => {
+    if (!!router.query?.keyword) {
+      dispatch(
+        searchActions.getSearchKeywordStart(router.query.keyword as string)
+      )
+    }
+  }, [router.query])
+
+  useEffect(() => {
     dispatch(searchActions.getRecentKeywordsInLocalStorage())
+
+    return () => {
+      dispatch(searchActions.clearSearch())
+    }
   }, [dispatch])
+
+  useEffect(() => {
+    if (!searchKeyword) {
+      dispatch(searchActions.clearSearchResults())
+      dispatch(searchActions.clearSimilarKeywords())
+    }
+  }, [searchKeyword])
 
   const goToBack = () => {
     router.back()
@@ -48,7 +67,8 @@ const Search = () => {
           </Link>
         </Header>
         <KeywordInput searchKeyword={searchKeyword} />
-        {!!searchKeyword ? <SimilarKeyword /> : <RecentKeyword />}
+        {!searchKeyword && <RecentKeyword />}
+        <SimilarKeyword />
         <FoodResults />
       </Wrapper>
     </Layout>

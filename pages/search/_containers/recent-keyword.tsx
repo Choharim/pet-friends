@@ -20,11 +20,6 @@ const RecentKeyword = () => {
     dispatch(searchActions.clearRecentKeyword())
   }
 
-  const searchRecentKeyword = (keyword: string) => {
-    dispatch(searchActions.setSearchKeyword(keyword))
-    dispatch(searchActions.searchKeywordStart({ searchKeyword: keyword }))
-  }
-
   return (
     <>
       {!!recentKeywords.length && (
@@ -36,11 +31,9 @@ const RecentKeyword = () => {
           <RecentKeywordContainer>
             {recentKeywords.map((recentKeyword) => (
               <KeywordWrapper key={`recent_keyword-${recentKeyword.id}`}>
-                <Wrapper
-                  onClick={() => searchRecentKeyword(recentKeyword.keyword)}
-                >
+                <Wrapper>
                   <Link
-                    href={`${pageNames.SEARCH}?query=${recentKeyword.keyword}`}
+                    href={`${pageNames.SEARCH}?keyword=${recentKeyword.keyword}`}
                   >
                     <a>
                       <Keyword>{recentKeyword.keyword}</Keyword>

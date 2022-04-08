@@ -11,31 +11,28 @@ const SimilarKeyword = () => {
   const dispatch = useDispatch()
   const similarKeywords = useSelector(selectSimilarKeywords)
 
-  const searchRecentKeyword = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    const keyword = e.currentTarget.innerText
-
-    dispatch(searchActions.setSearchKeyword(keyword))
-    dispatch(searchActions.searchKeywordStart({ searchKeyword: keyword }))
+  const clearSimilarKeywordSection = () => {
+    dispatch(searchActions.clearSimilarKeywords())
   }
-
   return (
-    <KeywordContainer>
-      {!!similarKeywords.length &&
-        similarKeywords.map((keyword, i) => (
-          <KeywordWrapper
-            key={`similar_${keyword}-${i}`}
-            onClick={searchRecentKeyword}
-          >
-            <Link href={`${pageNames.SEARCH}?query=${keyword}`}>
-              <a>
-                <Keyword>{keyword}</Keyword>
-              </a>
-            </Link>
-          </KeywordWrapper>
-        ))}
-    </KeywordContainer>
+    <>
+      {!!similarKeywords.length && (
+        <KeywordContainer>
+          {similarKeywords.map((keyword, i) => (
+            <KeywordWrapper
+              key={`similar_${keyword}-${i}`}
+              onClick={clearSimilarKeywordSection}
+            >
+              <Link href={`${pageNames.SEARCH}?keyword=${keyword}`}>
+                <a>
+                  <Keyword>{keyword}</Keyword>
+                </a>
+              </Link>
+            </KeywordWrapper>
+          ))}
+        </KeywordContainer>
+      )}
+    </>
   )
 }
 
