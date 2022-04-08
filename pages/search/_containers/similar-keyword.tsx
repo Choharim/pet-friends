@@ -1,6 +1,9 @@
 import styled from '@emotion/styled'
+import Link from 'next/link'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
+import { pageNames } from 'constants/common'
 import { selectSimilarKeywords } from 'store/search/search.selector'
 import { searchActions } from 'store/search/search.slice'
 
@@ -18,27 +21,43 @@ const SimilarKeyword = () => {
   }
 
   return (
-    <>
+    <KeywordContainer>
       {!!similarKeywords.length &&
         similarKeywords.map((keyword, i) => (
-          <Wrapper
+          <KeywordWrapper
             key={`similar_${keyword}-${i}`}
             onClick={searchRecentKeyword}
           >
-            {keyword}
-          </Wrapper>
+            <Link href={`${pageNames.SEARCH}?query=${keyword}`}>
+              <a>
+                <Keyword>{keyword}</Keyword>
+              </a>
+            </Link>
+          </KeywordWrapper>
         ))}
-    </>
+    </KeywordContainer>
   )
 }
 
 export default SimilarKeyword
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const KeywordContainer = styled.ul``
 
-  margin-top: 15px;
+const KeywordWrapper = styled.li`
+  border-radius: 2px;
   cursor: pointer;
+
+  & > a {
+    padding: 5px 0;
+    display: block;
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.GREY_1};
+  }
+`
+
+const Keyword = styled.span`
+  ${({ theme }) => theme.fonts.BODY_1};
+  color: ${({ theme }) => theme.colors.BLACK_1};
 `

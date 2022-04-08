@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 
 import { searchActions } from 'store/search/search.slice'
-import { ICON_CDN_URL } from 'constants/common'
+import { ICON_CDN_URL, pageNames } from 'constants/common'
 
 const MAX_KEYWORD_LENGTH = 100
 
@@ -13,6 +14,7 @@ type KeywordInputProps = {
 
 const KeywordInput = ({ searchKeyword }: KeywordInputProps) => {
   const dispatch = useDispatch()
+  const router = useRouter()
   const ref = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
@@ -34,6 +36,7 @@ const KeywordInput = ({ searchKeyword }: KeywordInputProps) => {
   }
 
   const enterKeyword = () => {
+    router.push(`${pageNames.SEARCH}?query=${searchKeyword}`)
     dispatch(searchActions.searchKeywordStart({ searchKeyword }))
   }
 
@@ -44,7 +47,7 @@ const KeywordInput = ({ searchKeyword }: KeywordInputProps) => {
   }
 
   return (
-    <InputWrapper>
+    <InputBox>
       <SearchButton onClick={enterKeyword} />
       <SearchInput
         ref={ref}
@@ -61,20 +64,20 @@ const KeywordInput = ({ searchKeyword }: KeywordInputProps) => {
           alt="keyword-reset_icon"
         />
       )}
-    </InputWrapper>
+    </InputBox>
   )
 }
 
 export default React.memo(KeywordInput)
 
-const InputWrapper = styled.div`
+const InputBox = styled.div`
   display: flex;
   align-items: center;
   height: 50px;
   width: 100%;
   padding: 10px;
   border-radius: 4px;
-  background-color: ${({ theme }) => theme.colors.GREY_2};
+  background-color: ${({ theme }) => theme.colors.GREY_1};
 `
 
 const SearchButton = styled.button`

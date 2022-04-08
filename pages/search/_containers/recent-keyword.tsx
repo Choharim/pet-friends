@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { useDispatch, useSelector } from 'react-redux'
+import Link from 'next/link'
 
-import { ICON_CDN_URL } from 'constants/common'
+import { ICON_CDN_URL, pageNames } from 'constants/common'
 import { selectRecentKeywords } from 'store/search/search.selector'
 import { searchActions } from 'store/search/search.slice'
 import { dotFormat } from 'utils'
@@ -19,11 +20,7 @@ const RecentKeyword = () => {
     dispatch(searchActions.clearRecentKeyword())
   }
 
-  const searchRecentKeyword = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    const keyword = e.currentTarget.innerText
-
+  const searchRecentKeyword = (keyword: string) => {
     dispatch(searchActions.setSearchKeyword(keyword))
     dispatch(searchActions.searchKeywordStart({ searchKeyword: keyword }))
   }
@@ -32,23 +29,32 @@ const RecentKeyword = () => {
     <>
       {!!recentKeywords.length && (
         <>
-          <Wrapper>
+          <TitleWrapper>
             <Title>최근 검색어</Title>
             <AllReset onClick={resetAllRecentKeyword}>전체 삭제</AllReset>
-          </Wrapper>
+          </TitleWrapper>
           <RecentKeywordContainer>
             {recentKeywords.map((recentKeyword) => (
-              <Wrapper key={`recent_keyword-${recentKeyword.id}`}>
-                <Keyword onClick={searchRecentKeyword}>
-                  {recentKeyword.keyword}
-                </Keyword>
+              <KeywordWrapper key={`recent_keyword-${recentKeyword.id}`}>
+                <Wrapper
+                  onClick={() => searchRecentKeyword(recentKeyword.keyword)}
+                >
+                  <Link
+                    href={`${pageNames.SEARCH}?query=${recentKeyword.keyword}`}
+                  >
+                    <a>
+                      <Keyword>{recentKeyword.keyword}</Keyword>
+                    </a>
+                  </Link>
+                </Wrapper>
+
                 <SearchedDate>{dotFormat(recentKeyword.id)}</SearchedDate>
                 <DeleteKeyword
                   onClick={() => deleteKeyword(recentKeyword.id)}
                   src={`${ICON_CDN_URL}/512/7124/7124230.png`}
                   alt="delete-keyword_icon"
                 />
-              </Wrapper>
+              </KeywordWrapper>
             ))}
           </RecentKeywordContainer>
         </>
@@ -59,12 +65,10 @@ const RecentKeyword = () => {
 
 export default RecentKeyword
 
-const Wrapper = styled.div`
+const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  margin-top: 15px;
 `
 
 const Title = styled.h2`
@@ -85,26 +89,34 @@ const AllReset = styled.span`
     color: ${({ theme }) => theme.colors.BLACK_1};
   }
 `
-const RecentKeywordContainer = styled.div`
+const RecentKeywordContainer = styled.ul`
   display: flex;
   flex-direction: column-reverse;
 `
 
-const Keyword = styled.span`
+const KeywordWrapper = styled.li`
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 30px;
-
-  ${({ theme }) => theme.fonts.BODY_2};
-  color: ${({ theme }) => theme.colors.BLACK_3};
   border-radius: 2px;
   cursor: pointer;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.GREY_1};
-    color: ${({ theme }) => theme.colors.BLACK_5};
   }
+`
+
+const Wrapper = styled.div`
+  width: 100%;
+  > a {
+    padding: 5px 0;
+    display: inline-block;
+    width: 100%;
+  }
+`
+
+const Keyword = styled.span`
+  ${({ theme }) => theme.fonts.BODY_2};
+  color: ${({ theme }) => theme.colors.BLACK_3};
 `
 
 const SearchedDate = styled.span`
@@ -118,7 +130,6 @@ const DeleteKeyword = styled.img`
   padding: 3px;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.GREY_2};
-  cursor: pointer;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.GREY_3};

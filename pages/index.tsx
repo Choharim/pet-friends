@@ -1,7 +1,8 @@
 import styled from '@emotion/styled'
 import Layout from 'components/layout/layout'
-import { ICON_CDN_URL } from 'constants/common'
+import { ICON_CDN_URL, pageNames } from 'constants/common'
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import React from 'react'
 
 const FIELD = [
@@ -11,14 +12,17 @@ const FIELD = [
       {
         name: '간식',
         iconUrl: '512/784/784062.png',
+        url: `${pageNames.SHOP}?category=snake`,
       },
       {
         name: '음료',
         iconUrl: '512/3081/3081956.png',
+        url: `${pageNames.SHOP}?category=drink`,
       },
       {
         name: '식사',
         iconUrl: '512/4491/4491049.png',
+        url: `${pageNames.SHOP}?category=dish`,
       },
     ],
   },
@@ -28,14 +32,17 @@ const FIELD = [
       {
         name: '초급',
         iconUrl: '512/7218/7218599.png',
+        url: `${pageNames.CLASS}?category=beginner`,
       },
       {
         name: '중급',
         iconUrl: '512/3202/3202822.png',
+        url: `${pageNames.CLASS}?category=intermediate`,
       },
       {
         name: '고급',
         iconUrl: '512/1980/1980708.png',
+        url: `${pageNames.CLASS}?category=advanced`,
       },
     ],
   },
@@ -53,18 +60,22 @@ const Home: NextPage = () => {
             return (
               <CategorySection key={`category_menu_${fieldData.title}-${i}`}>
                 <CategoryTitle>{title}</CategoryTitle>
-                <CategoryListContainer>
+                <CategoryContainer>
                   {category.map((categoryData, i) => {
-                    const { name, iconUrl } = categoryData
+                    const { name, iconUrl, url } = categoryData
 
                     return (
-                      <CategoryList key={`category_${name}-${i}`}>
-                        <CategoryIcon src={`${ICON_CDN_URL}/${iconUrl}`} />
-                        <CategoryName>{name}</CategoryName>
-                      </CategoryList>
+                      <Link key={`category_${name}-${i}`} href={url}>
+                        <a>
+                          <CategoryButton>
+                            <CategoryIcon src={`${ICON_CDN_URL}/${iconUrl}`} />
+                            <CategoryName>{name}</CategoryName>
+                          </CategoryButton>
+                        </a>
+                      </Link>
                     )
                   })}
-                </CategoryListContainer>
+                </CategoryContainer>
               </CategorySection>
             )
           })}
@@ -106,20 +117,20 @@ const CategoryTitle = styled.h2`
   color: ${({ theme }) => theme.colors.BLACK_5};
 `
 
-const CategoryListContainer = styled.ul`
+const CategoryContainer = styled.ul`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 `
 
-const CategoryList = styled.li`
+const CategoryButton = styled.li`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100px;
-  height: 80px;
+  height: 90px;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.MAIN_1};
   cursor: pointer;
@@ -127,10 +138,14 @@ const CategoryList = styled.li`
   &:hover {
     background-color: ${({ theme }) => theme.colors.MAIN_2};
   }
+
+  &:active {
+    background-color: ${({ theme }) => theme.colors.MAIN_3};
+  }
 `
 
 const CategoryIcon = styled.img`
-  width: 30px;
+  width: 32px;
 `
 
 const CategoryName = styled.span`

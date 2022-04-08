@@ -47,6 +47,10 @@ export const reset = css`
     width: 24px;
   }
 
+  img {
+    -webkit-user-drag: none;
+  }
+
   address {
     font-style: normal;
   }
